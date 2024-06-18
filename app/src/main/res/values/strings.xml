@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Beacon-Compose</string>
+    <string name="title_activity_providers_details">ProvidersDetailsActivity</string>
+    <string name="title_activity_add_user">AddUserActivity</string>
+</resources>
