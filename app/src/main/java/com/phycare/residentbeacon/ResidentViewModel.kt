@@ -54,6 +54,7 @@ class ResidentViewModel:ViewModel() {
         }
     }
 */
+
     val pgyListResponse = mutableStateListOf<PGYItem>()
     fun getAllPGy(){
         pgyListResponse.clear()

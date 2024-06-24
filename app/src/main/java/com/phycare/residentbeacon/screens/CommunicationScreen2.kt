@@ -65,37 +65,33 @@ import com.phycare.residentbeacon.model.StatesItem
 
 
 @Composable
-fun CommunicationScreen(
+fun CommunicationScreen2(
     navController: NavHostController,
     viewModel: ResidentViewModel,
     stateList: SnapshotStateList<StatesItem>,
     pgyList: SnapshotStateList<PGYItem>,
-    specialityList: SnapshotStateList<SpecialityItem>
+    specialityList: SnapshotStateList<SpecialityItem>,
 ) {
 
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-       /* viewModel.getAllStates()
+        /*  *//* viewModel.getAllStates()
         viewModel.getAllPGy()
         viewModel.getAllSpeciality()*/
 
         // PostList(movieList)
-        displayScreen(
+        displayScreen2(
             viewModel,
             stateList /*= viewModel.stateListResponse*/,
             pgyList /*= viewModel.pgyListResponse*/,
             specialityList /*= viewModel.specialityListResponse*/
         )
-
-
-
     }
 }
 
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun displayScreen(
+fun displayScreen2(
     viewModel: ResidentViewModel,
     stateList: SnapshotStateList<StatesItem>,
     pgyList: SnapshotStateList<PGYItem>,
@@ -146,7 +142,7 @@ fun displayScreen(
 
     val resultList = remember { mutableListOf<ResidentCompleteSearchItem>() }
 
-    val alert = remember {mutableStateOf(false)}
+    val alert = remember { mutableStateOf(false) }
     var imagePickerLauncher: ActivityResultLauncher<Intent>
     var imagePickerResultHandler: ((Uri) -> Unit)? = null
 
@@ -214,7 +210,7 @@ fun displayScreen(
 
                                 }
                                 getDataSearch = true
-                                getResponseData(viewModel,locationName,pgyName,specialityName)
+                                getResponseData2(viewModel, locationName, pgyName, specialityName)
                             })
 
 
@@ -400,25 +396,26 @@ fun displayScreen(
         } // column
     } //if close
     if (getDataSearch) {
-        isOneTime = true
+        //isOneTime = true
         Log.e("name", "locationName: " + locationName)
         Log.e("name", "pgyName: " + pgyName)
         Log.e("name", "providerName: " + specialityName)
         viewModel.getResidentCompleteSearch(locationName, pgyName, specialityName)
         Spacer(modifier = Modifier.height(3.dp))
-        viewModel.getResidentCompleteSearchFilter(locationName, pgyName, specialityName)
+       // viewModel.getResidentCompleteSearchFilter(locationName, pgyName, specialityName)
 
-       // Log.e("resultList size", "resultList size: " + viewModel.residentCompleteSearchList.size)
+        // Log.e("resultList size", "resultList size: " + viewModel.residentCompleteSearchList.size)
         if (isOneTime) {
             viewModel.residentCompleteSearchListResponse.forEach {
 
                 if (it.MailID != null && !it.MailID.isEmpty()) {
                     resultList.addAll(listOf(it))
                 }
+                isOneTime = false
             }
         }
 
-        isOneTime = false
+
         // size of title
         var sizeCount = resultList.size
         var cc by remember { mutableStateOf(sizeCount) }
@@ -491,7 +488,7 @@ fun displayScreen(
                 {
                     itemsIndexed(resultList) { index, item ->
 
-                        EachRow2(
+                        EachRow22(
                             isEnabled = isEnabled,
                             item = item,
                             index = index,
@@ -580,9 +577,9 @@ fun displayScreen(
                             emailIntent.putExtra(Intent.EXTRA_SUBJECT, subTxt)
                             emailIntent.putExtra(Intent.EXTRA_TEXT, bodyTxt)
 
-                            // on below line we are
-                            // setting type of intent
-                          //  intent.setType("message/rfc822")
+                                // on below line we are
+                                // setting type of intent
+                                //  intent.setType("message/rfc822")
                                 .setType("text/plain");
                             // on the below line we are starting our activity to open email application.
                             context.startActivity(
@@ -602,22 +599,23 @@ fun displayScreen(
             }
         } // box
     } else {
-       // viewModel.getResidentCompleteSearch2("", "", "")
-       // val getAllUserData = viewModel.getUserData.observeAsState()
+        // viewModel.getResidentCompleteSearch2("", "", "")
+        // val getAllUserData = viewModel.getUserData.observeAsState()
 
-       // Log.e("getAllUserData", "resultList size: " + getAllUserData.value!![0].Provider_Name)
+        // Log.e("getAllUserData", "resultList size: " + getAllUserData.value!![0].Provider_Name)
         viewModel.getResidentCompleteSearch("", "", "")
 
-        if (isOneTime) {
-            viewModel.residentCompleteSearchListResponse.forEach {
+         if (isOneTime) {
+        viewModel.residentCompleteSearchListResponse.forEach {
 
-                if (it.MailID != null && !it.MailID.isEmpty()) {
-                    resultList.addAll(listOf(it))
-                }
+            if (it.MailID != null && !it.MailID.isEmpty()) {
+                resultList.addAll(listOf(it))
             }
+            isOneTime = false
         }
+          }
 
-        isOneTime = false
+
         // size of title
         var sizeCount = resultList.size
         var cc by remember { mutableStateOf(sizeCount) }
@@ -656,13 +654,22 @@ fun displayScreen(
                                 cc = sizeCount
                                 listCount.clear()
                             }
+                            Log.e("CC", "ACC: $cc")
                         },
                         role = Role.Checkbox
                     ),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
+
                 )
                 {
+                    if (selectAll){
+                        cc = 0
+                        Log.e("CC COUNT","CC:  $cc")
+                    }else{
+                        cc = sizeCount
+
+                    }
                     Text(
                         text = "Available : $cc",
                         modifier = Modifier.padding(start = 15.dp)
@@ -783,11 +790,11 @@ fun displayScreen(
                         }
                         Text(text = "filename: $fileName")
                     }
-                    
+
                     Button(
                         onClick = {
 
-                          //  val intent = Intent(Intent.ACTION_SEND)
+                            //  val intent = Intent(Intent.ACTION_SEND)
                             val emailAddress = arrayOfNulls<String>(listCount.size)
                             // emailAddress[0] = "raju.elaboina@gmail.com"
                             for (i in 0 until listCount.size) {
@@ -825,20 +832,20 @@ fun displayScreen(
 }
 
 
-fun getResponseData(
+fun getResponseData2(
     viewModel: ResidentViewModel,
     locationName: String,
     pgyName: String,
     specialityName: String,
 ) {
-    viewModel.getResidentCompleteSearch(locationName , pgyName, specialityName)
+    viewModel.getResidentCompleteSearch(locationName, pgyName, specialityName)
     viewModel.residentCompleteSearchListResponse
-    Log.e("List of Re","list Size: ${viewModel.residentCompleteSearchListResponse.size}")
+    Log.e("List of Re", "list Size: ${viewModel.residentCompleteSearchListResponse.size}")
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun EachRow2(
+fun EachRow22(
     modifier: Modifier = Modifier,
     isEnabled: Boolean,
     item: ResidentCompleteSearchItem,
@@ -888,5 +895,16 @@ fun EachRow2(
 
 }
 
-    
 
+
+/*
+04/11/2023 DIRECTOR OF TOWN AND COUNHYDERABADIN GOVT SERVICES 10,162.54 Cr
+01/06/2024 DMART SHANAT NAGARHYDERABADIND DEPT STORES 2,977.01 Dr
+02/06/2024 S3 MARTHYDERABADIN CLOTH STORES 1,697.00 Dr
+06/06/2024 MB PAYMENT #E8W4PYUIC1VPWN 14,214.37 Cr
+09/06/2024 MSW*SREE BINNY TEXTILESHYDERABADIN CLOTH STORES 1,560.00 Dr
+11/06/2024 AIRTEL PAYMENTS BANK LTDGURGAONIN UTILITIES 719.00 Dr
+13/06/2024 JIO PLATFORMS LIMITEMUMBAIIN UTILITIES 999.00 Dr
+15/06/2024 AVENUE SUPERMARTS LTDHYDERABADIN DEPT STORES 2,837.60 Dr
+16/06/2024 WHAT 2 2RANGAREDDYIN CLOTH STORES 4,000.00 Dr
+17/06/2024 UNIFORM HOUSEHYDERABADIND CLOTH STORES 1,780.00 Dr*/

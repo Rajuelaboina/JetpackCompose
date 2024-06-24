@@ -82,6 +82,9 @@ import com.phycare.residentbeacon.ui.theme.BeaconComposeTheme
 fun ManageProvidersScreen(
     navController: NavHostController,
     viewModel: ResidentViewModel,
+    stateList: SnapshotStateList<StatesItem>,
+    pgyList: SnapshotStateList<PGYItem>,
+    specialityList: SnapshotStateList<SpecialityItem>,
 )
 {
     BeaconComposeTheme {
@@ -102,16 +105,16 @@ fun ManageProvidersScreen(
 
             ) {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                viewModel.getAllStates()
+              /*  viewModel.getAllStates()
                 viewModel.getAllPGy()
-                viewModel.getAllSpeciality()
+                viewModel.getAllSpeciality()*/
 
                 // PostList(movieList)
                 manageProvidersList(
                     viewModel,
-                    stateList = viewModel.stateListResponse,
-                    pgyList = viewModel.pgyListResponse,
-                    specialityList = viewModel.specialityListResponse
+                    stateList /*= viewModel.stateListResponse*/,
+                    pgyList /*= viewModel.pgyListResponse*/,
+                    specialityList /*= viewModel.specialityListResponse*/
                 )
 
             }
@@ -389,9 +392,9 @@ fun manageProvidersList(
     }
 
     if (showWebView) {
-        Log.e("name", "providerName: " + providerName)
+        /*Log.e("name", "providerName: " + providerName)
         Log.e("name", "locationName 2: " + locationName)
-        Log.e("name", "pgyName: " + pgyName)
+        Log.e("name", "pgyName: " + pgyName) */
 
         Spacer(modifier = Modifier.height(3.dp))
         // close drop down 2nd
@@ -417,9 +420,9 @@ fun manageProvidersList(
             ) {
                 Text(text = "Select All : "+viewModel.residentCompleteSearchListResponse.size, modifier = Modifier.weight(6f))
 
-                if (isEnabled){
+              //  if (isEnabled){
                     Image(painterResource(id = R.drawable.baseline_delete_24), contentDescription = "", modifier = Modifier.align(Alignment.CenterVertically))
-                }
+              //  }
 
                 Checkbox(
                     checked = selectAll, onCheckedChange = null, modifier = Modifier
@@ -489,7 +492,7 @@ fun manageProvidersList(
             ) {
                 Text(text = "Select All : " + list.size, modifier = Modifier.weight(6f))
 
-                if (isEnabled){
+            //    if (isEnabled){
                     Image(painterResource(id = R.drawable.baseline_delete_24),
                         contentDescription = "",
                         modifier = Modifier
@@ -503,7 +506,7 @@ fun manageProvidersList(
                                 selectAll = false
                             }
                     )
-                }
+            //    }
 
                 Checkbox(checked = selectAll, onCheckedChange = null,modifier = Modifier
                     .weight(1f)
@@ -585,31 +588,33 @@ fun EachRow(
                     modifier = modifier
                         .padding(start = 0.dp, top = 8.dp)
                 )
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)) {
 
                     Text(
                         text = "Location : " + item.Location,
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.weight(6f)
+                        modifier = Modifier.weight(6f).align(Alignment.CenterVertically)
                     )
 
                     Checkbox(
                         checked = selectedItem, onCheckedChange = {null
                         }, modifier = Modifier
-                            .padding(1.dp)
-                            .weight(1f)
+                            .padding(0.dp)
+                            .weight(1f).align(Alignment.CenterVertically)
 
                     )
                 }
 
                 Text(
                     text = "PGY : " + item.PGY,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
                     text = "Status : " + "Active",
                     style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 4.dp)
                 )
+
+
 
 
 

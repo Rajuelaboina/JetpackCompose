@@ -20,12 +20,12 @@ data class BottomNavigationItem(
             ),
             BottomNavigationItem(
                 label = "ManageProviders",
-                icon =  R.drawable.nav_icon4,
+                icon =  R.drawable.nav_icon3,
                 route = Screens.ManageProviders.route
             ),
             BottomNavigationItem(
                 label = "Communication",
-                icon =  R.drawable.nav_icon3,
+                icon =  R.drawable.nav_icon4,
                 route = Screens.Communications.route
             ),
         )

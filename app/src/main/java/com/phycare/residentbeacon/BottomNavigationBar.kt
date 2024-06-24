@@ -59,6 +59,13 @@ fun BottomNavigationBar(viewModel: ResidentViewModel) {
               }
      )
      { paddingValues ->
+
+         viewModel.getAllStates()
+         viewModel.getAllPGy()
+         viewModel.getAllSpeciality()
+         val  stateList = viewModel.stateListResponse
+         val pgyList = viewModel.pgyListResponse
+         val specialityList = viewModel.specialityListResponse
          NavHost(
              navController = navController,
              startDestination = Screens.Residents.route,
@@ -66,22 +73,22 @@ fun BottomNavigationBar(viewModel: ResidentViewModel) {
              composable(Screens.Residents.route) {
 
                  ProvidersScreen(
-                     navController,viewModel
+                     navController,viewModel,stateList,pgyList,specialityList
                  )
              }
              composable(Screens.Programs.route) {
                  ProgramsScreen(
-                     navController,viewModel
+                     navController,viewModel,stateList,pgyList,specialityList
                  )
              }
              composable(Screens.ManageProviders.route) {
                  ManageProvidersScreen(
-                     navController,viewModel
+                     navController,viewModel,stateList,pgyList,specialityList
                  )
              }
              composable(Screens.Communications.route) {
                  CommunicationScreen(
-                     navController,viewModel
+                     navController,viewModel,stateList,pgyList,specialityList
                  )
              }
 
