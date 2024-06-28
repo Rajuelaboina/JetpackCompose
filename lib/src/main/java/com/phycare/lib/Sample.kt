@@ -1,32 +1,30 @@
 package com.phycare.lib
 
-class Sample {
-}
 fun main(){
+   sum(10,20){a,b -> a+b}
+    even2(32){a-> if (a%2==0) println("this is Even number: $a") else println("this is Odd Num: $a") }
 
-    //doSomthing(10,20){x,y-> println(x+y) }
-   // doSomthing(5,5){x,y-> println(x-y) }
-   // doSomthing(20,30){x,y->x * y}
-   //val s = doSomthing(20){x,-> println(x) }
-  //  println(s)
-    trickOrTreat(true){x-> "Welcome" }
+    caluc(10,20){ x, y-> println("addition of value:  ${x+y}")}
+    caluc(20,30){ x, y-> println("sub of value:  ${x-y}") }
+    caluc(5,6){ x, y-> println("mul of value:  ${x*y}") }
+    caluc(5,6,::add2)
 }
-fun doSomthing(x:Int,fuction:(Int)-> Unit): ()-> Int{
-       fuction(x)
-       return { 20+30 }
+fun add(x:Int,y:Int)= println( "addd: ${x+y}")
+fun add2(x:Int,y:Int){
+    println(x+y)
 }
-fun trickOrTreat(isTrick: Boolean, extraTreat: (Int) -> String): () -> Unit {
-    val trick = {
-        println("No treats!")
-    }
+fun sum(x:Int,y:Int,ope:(Int,Int)->Unit){
+         ope(x,y)
+}
+fun sub(x:Int,y:Int,userFun:(Int,Int)->Unit){
+    userFun(x,y)
+}
+fun even2(a:Int,operation:(Int)->Unit){
+       val result = operation(a)
 
-    val treat = {
-        println("Have a treat!")
-    }
-    if (isTrick) {
-        return trick
-    } else {
-        println(extraTreat(5))
-        return treat
-    }
 }
+fun caluc(x:Int, y:Int, operation:(Int, Int) -> Unit){
+    operation(x,y)
+}
+// onPause() onStop() onDestroy()
+//onPause() onStop(),

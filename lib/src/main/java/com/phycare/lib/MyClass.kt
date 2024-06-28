@@ -30,6 +30,7 @@ fun main(){
   //  sub(8,9)
     //val vvv ={a:Int-> println( a%2==0)}
     vvv(2){a:Int-> println( a%2==0)}
+
 }
 
 fun vvv(i: Int, function: (Int) -> Unit) {
@@ -59,6 +60,9 @@ fun evenNum(a:Int,even:(Int)->Unit){
 }
 fun value2(a:Int,b:Int,sum:(Int,Int)->Unit){
     sum(a,b)
+}
+fun doSomething(){
+
 }
 
 

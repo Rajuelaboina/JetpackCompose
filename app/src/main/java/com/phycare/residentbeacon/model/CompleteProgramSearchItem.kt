@@ -1,29 +1,80 @@
 package com.phycare.residentbeacon.model
 
+import com.google.gson.annotations.SerializedName
+
 data class CompleteProgramSearchItem(
-    val AcceptingApplications: String,
-    val AcceptingNextYear: String,
-    val AccreditedYears: Int,
-    val AdditionalComments: String,
-    val AdminInfo: String,
-    val ContactInfo: String,
-    val ERASParticipant: String,
-    val GovernmentAffiliated: String,
-    val LastUpdated: String,
-    val Location: String,
-    val LocationInfo: String,
-    val Participant1: String,
-    val Participant2: String,
-    val Participant3: String,
-    val ProgramAffiliation: String,
-    val ProgramID: Long,
-    val ProgramLink: String,
-    val ProgramName: String,
-    val ProgramType: String,
-    val RequiredYears: Int,
-    val ResidencyLink: String,
-    val Speciality: String,
-    val Sponsor: String,
-    val StartingDate: String,
-    val SurveyReceived: String
+
+    @SerializedName("ProgramID")
+     var programID: Long,
+    @SerializedName("ProgramName")
+     val programName: String,
+
+    @SerializedName("Speciality")
+     val speciality: String,
+
+    @SerializedName("Location")
+     val location: String,
+
+    @SerializedName("AdminInfo")
+     val adminInfo: String,
+
+    @SerializedName("ContactInfo")
+     val contactInfo: String,
+
+    @SerializedName("ProgramLink")
+     val programLink: String,
+
+    @SerializedName("ResidencyLink")
+     val residencyLink: String,
+
+    @SerializedName("LastUpdated")
+     val lastUpdated: String,
+
+    @SerializedName("SurveyReceived")
+     val surveyReceived: String,
+
+    @SerializedName("LocationInfo")
+     val locationInfo: String,
+
+    @SerializedName("Sponsor")
+     val sponsor: String,
+
+    @SerializedName("Participant1")
+     val participant1: String,
+
+    @SerializedName("Participant2")
+     val participant2: String,
+
+    @SerializedName("Participant3")
+     val participant3: String,
+
+    @SerializedName("ProgramType")
+     val programType: String,
+
+    @SerializedName("ProgramAffiliation")
+     val programAffiliation: String,
+
+    @SerializedName("AccreditedYears")
+     val accreditedYears: Int,
+
+    @SerializedName("RequiredYears")
+     val requiredYears: Int,
+
+    @SerializedName("AcceptingApplications")
+     val acceptingApplications: String,
+
+    @SerializedName("AcceptingNextYear")
+     val acceptingNextYear: String,
+
+    @SerializedName("StartingDate")
+     val startingDate: String,
+
+    @SerializedName("ERASParticipant")
+     val eRASParticipant: String,
+
+    @SerializedName("GovernmentAffiliated")
+     val governmentAffiliated: String,
+
+    @SerializedName("AdditionalComments")
+     val additionalComments: String,
 )

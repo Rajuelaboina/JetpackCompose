@@ -16,11 +16,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -41,14 +43,17 @@ fun AppDrawer(
     navigateToLogout: ()-> Unit = {},
     closeDrawer: () -> Unit = {}
 ) {
-    ModalDrawerSheet(modifier = modifier) {
+    ModalDrawerSheet{
         DrawerHeader(modifier)
-       Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.spacer_padding)))
+      // Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.spacer_padding)))
+        Column {
+
         NavigationDrawerItem(
             label = {
                 Text(
                     text = stringResource(id = R.string.home),
-                    style = MaterialTheme.typography.labelSmall
+                    style = MaterialTheme.typography.labelLarge,
+
                 )
             },
             selected = route == AllDestinations.HOME,
@@ -56,8 +61,9 @@ fun AppDrawer(
                 navigateToHome()
                 closeDrawer()
             },
-            icon = { Icon(painterResource(id = R.drawable.nav_home), contentDescription = null) },
-            shape = MaterialTheme.shapes.medium
+            icon = { Icon(painterResource(id = R.drawable.nav_home), contentDescription = null, modifier = Modifier.size(25.dp)) },
+            shape = MaterialTheme.shapes.large,
+
         )
         NavigationDrawerItem(
             label = { Text(text = stringResource(id = R.string.providers), style = MaterialTheme.typography.labelSmall) },
@@ -67,7 +73,8 @@ fun AppDrawer(
                 closeDrawer()
             },
             icon = { Icon(painterResource(id = R.drawable.nav_icon1), contentDescription = null) },
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
+
         )
         NavigationDrawerItem(
             label = { Text(text = stringResource(id = R.string.programs), style = MaterialTheme.typography.labelSmall) },
@@ -77,7 +84,14 @@ fun AppDrawer(
                 closeDrawer()
             },
             icon = { Icon(painterResource(id = R.drawable.nav_icon2), contentDescription = null) },
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
+           /* colors = NavigationDrawerItemDefaults.colors(
+                selectedContainerColor = Color.DarkGray,
+                unselectedContainerColor = Color.LightGray,
+                selectedTextColor = Color.White,
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color.White
+            )*/
         )
         NavigationDrawerItem(
             label = { Text(text = stringResource(id = R.string.manageProviders), style = MaterialTheme.typography.labelSmall) },
@@ -87,7 +101,8 @@ fun AppDrawer(
                 closeDrawer()
             },
             icon = { Icon(painterResource(id = R.drawable.nav_icon3), contentDescription = null) },
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
+
         )
         NavigationDrawerItem(
             label = { Text(text = stringResource(id = R.string.communication), style = MaterialTheme.typography.labelSmall) },
@@ -97,7 +112,14 @@ fun AppDrawer(
                 closeDrawer()
             },
             icon = { Icon(painterResource(id = R.drawable.nav_icon4) , contentDescription = null) },
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
+            /*colors = NavigationDrawerItemDefaults.colors(
+                selectedContainerColor = Color.DarkGray,
+                unselectedContainerColor = Color.LightGray,
+                selectedTextColor = Color.White,
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color.White
+            )*/
         )
         NavigationDrawerItem(
             label = { Text(text = stringResource(id = R.string.logout), style = MaterialTheme.typography.labelSmall) },
@@ -107,18 +129,20 @@ fun AppDrawer(
                 closeDrawer()
             },
             icon = { Icon(painterResource(id = R.drawable.logout_24) , contentDescription = null) },
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
+
         )
 
+        }
     }
 }
 @Composable
 fun DrawerHeader(modifier: Modifier) {
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.Start,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .background(MaterialTheme.colorScheme.secondary)
+           /* .background(color = Color.LightGray)*/
             .padding(dimensionResource(id = R.dimen.header_padding))
             .fillMaxWidth()
     ) {
@@ -134,7 +158,15 @@ fun DrawerHeader(modifier: Modifier) {
         Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.spacer_padding)))
 
         Text(
-            text = stringResource(id = R.string.app_name),
+            text = "Raju K S R",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyLarge,
+            color = Color.Black,
+        )
+        Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.spacer_padding)))
+        Text(
+            //text = stringResource(id = R.string.app_name),
+            text =  "System Administrator",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onPrimary,

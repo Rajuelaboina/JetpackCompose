@@ -2,10 +2,8 @@ package com.phycare.residentbeacon.screens
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,6 +36,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -48,7 +47,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -56,10 +54,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.phycare.residentbeacon.R
 import com.phycare.residentbeacon.ResidentViewModel
 import com.phycare.residentbeacon.getImgUrl
@@ -72,7 +67,7 @@ import com.phycare.residentbeacon.ui.theme.BeaconComposeTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProvidersScreen(
-    navController: NavHostController,
+   // navController: NavHostController,
     viewModel: ResidentViewModel,
     stateList: SnapshotStateList<StatesItem>,
     pgyList: SnapshotStateList<PGYItem>,
@@ -96,18 +91,6 @@ fun ProvidersScreen(
     }
 }
 
-@Composable
-fun stateItem(sItem: StatesItem, index: Int) {
-    Log.e("DDDDDDDDD", "value: " + sItem.Location)
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Column {
-            Text(text = sItem.Location)
-        }
-
-    }
-}
-
-
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalMaterial3Api
 @Composable
@@ -117,13 +100,13 @@ fun PostList(
     pgyList: List<PGYItem>,
     specialityList: List<SpecialityItem>,
 ) {
-    val context = LocalContext.current
+   // val context = LocalContext.current
     //get the json data
-    val strJson = getJsondataFromAssets(context, "resident.json")
-    val gson = Gson()
-    val strType = object : TypeToken<List<ResidentCompleteSearchItem>>() {}.type
-    val residentCompleteSearchListResponse: List<ResidentCompleteSearchItem> =
-        gson.fromJson(strJson, strType)
+   // val strJson = getJsondataFromAssets(context, "resident.json")
+   // val gson = Gson()
+  //  val strType = object : TypeToken<List<ResidentCompleteSearchItem>>() {}.type
+   /* val residentCompleteSearchListResponse: List<ResidentCompleteSearchItem> =
+        gson.fromJson(strJson, strType)*/
     //Log.e("Assets Data","listSize: ${list.size}")
 
     var showWebView by remember { mutableStateOf(false) }
@@ -131,22 +114,23 @@ fun PostList(
     var locationName by remember { mutableStateOf("") }
     var pgyName by remember { mutableStateOf("") }
     var specialityName by remember { mutableStateOf("") }
-    var imgShowAndHide by remember { mutableStateOf(false) }
+   // var imgShowAndHide by remember { mutableStateOf(false) }
 
-    if (stateList.size != 0 && specialityList.size != 0) {
-        var ResidentName by remember { mutableStateOf("") }
-        var isError by rememberSaveable { mutableStateOf(false) }
+    if (stateList.isNotEmpty() && specialityList.isNotEmpty()) {
+        var residentName by remember { mutableStateOf("") }
+        val isError by rememberSaveable { mutableStateOf(false) }
         var itemsp by remember { mutableStateOf("") }
         var expanded by remember { mutableStateOf(false) }
-        var selectedItemIndex by remember { mutableStateOf(0) }
-        Column(modifier = Modifier.fillMaxSize()) {
+        var selectedItemIndex by remember { mutableIntStateOf(0) }
+        Column(modifier = Modifier.background(color = Color.White)
+            .fillMaxSize(),) {
 
             Row(modifier = Modifier.fillMaxWidth()) {
                 OutlinedTextField(
-                    value = ResidentName,
+                    value = residentName,
                     onValueChange = {
-                        ResidentName = it
-                        providerName = ResidentName.toString()
+                        residentName = it
+                        providerName = residentName
                         showWebView = true
                     },
                     label = { Text(text = "Provider name") },
@@ -171,7 +155,8 @@ fun PostList(
                             start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
                         )
                         .weight(1f)
-                ) {
+                )
+                {
                     OutlinedTextField(
                         value = stateList[selectedItemIndex].Location,
                         onValueChange = { locationName = stateList[selectedItemIndex].Location },
@@ -186,7 +171,7 @@ fun PostList(
                     ExposedDropdownMenu(expanded = expanded,
                         onDismissRequest = { expanded = false }) {
                         stateList.forEachIndexed { index, item ->
-                            var userCity = item.Location
+                          //  var userCity = item.Location
                             DropdownMenuItem(text = {
                                 Text(
                                     text = item.Location,
@@ -196,7 +181,7 @@ fun PostList(
                             }, onClick = {
                                 selectedItemIndex = index
                                 expanded = false
-                                if (item.Location.equals("All")) {
+                                if (item.Location == "All") {
                                     locationName = ""
                                 } else {
                                     //providerName = item.toString()
@@ -204,7 +189,7 @@ fun PostList(
                                     locationName = item.Location
                                 }
 
-                                Log.e("locationName<>>>>>>>>>", "locationName :" + locationName)
+                               // Log.e("locationName<>>>>>>>>>", "locationName :" + locationName)
                                 //showWebView = true
                             })
 
@@ -216,7 +201,7 @@ fun PostList(
             }  // close the row of location
 
             var expandedPgy by remember { mutableStateOf(false) }
-            var selectedItemIndexPgy by remember { mutableStateOf(0) }
+            var selectedItemIndexPgy by remember { mutableIntStateOf(0) }
             Row(modifier = Modifier.fillMaxWidth()) {
                 ExposedDropdownMenuBox(
                     expanded = expandedPgy,
@@ -253,7 +238,7 @@ fun PostList(
                         expanded = expandedPgy,
                         onDismissRequest = { expandedPgy = false }) {
                         pgyList.forEachIndexed { index, item ->
-                            var userpgy = item.PGY
+                           // var userpgy = item.PGY
                             DropdownMenuItem(text = {
                                 Text(
                                     text = item.PGY,
@@ -263,14 +248,14 @@ fun PostList(
                             }, onClick = {
                                 selectedItemIndexPgy = index
                                 expandedPgy = false
-                                if (item.PGY.equals("All")) {
+                                if (item.PGY == "All") {
                                     pgyName = ""
                                 } else {
                                     pgyName = item.PGY
                                     showWebView = true
                                 }
 
-                                Log.e("ListSize<>>>>>>>>>", "Size of :" + pgyName)
+                             //   Log.e("ListSize<>>>>>>>>>", "Size of :" + pgyName)
 
                             })
 
@@ -280,7 +265,7 @@ fun PostList(
                 }
                 //       speciality dropdown -------------- //
                 var expandedspeciality by remember { mutableStateOf(false) }
-                var selectedItemIndexspeciality by remember { mutableStateOf(0) }
+                var selectedItemIndexSpeciality by remember { mutableIntStateOf(0) }
                 ExposedDropdownMenuBox(
                     expanded = expandedspeciality,
                     onExpandedChange = { expandedspeciality = !expandedspeciality },
@@ -294,7 +279,7 @@ fun PostList(
                     OutlinedTextField(
                         modifier = Modifier.menuAnchor(),
                         readOnly = true,
-                        value = specialityList[selectedItemIndexspeciality].Speciality,
+                        value = specialityList[selectedItemIndexSpeciality].Speciality,
                         onValueChange = {},
                         label = { Text("Speciality") },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedspeciality) },
@@ -309,23 +294,23 @@ fun PostList(
                         expanded = expandedspeciality,
                         onDismissRequest = { expandedspeciality = false }) {
                         specialityList.forEachIndexed { index, item ->
-                            var userSpeciality = item.Speciality
+                           // var userSpeciality = item.Speciality
                             DropdownMenuItem(text = {
                                 Text(
                                     text = item.Speciality,
-                                    fontWeight = if (index == selectedItemIndexspeciality) FontWeight.Bold else null
+                                    fontWeight = if (index == selectedItemIndexSpeciality) FontWeight.Bold else null
                                 )
                                 itemsp = item.Speciality
                             }, onClick = {
-                                selectedItemIndexspeciality = index
+                                selectedItemIndexSpeciality = index
                                 expandedspeciality = false
-                                if (item.Speciality.equals("All")) {
+                                if (item.Speciality == "All") {
                                     specialityName = ""
                                 } else {
                                     specialityName = item.Speciality
                                     showWebView = true
                                 }
-                                Log.e("ListSize<>>>>>>>>>", "Size of :" + specialityName)
+                               // Log.e("ListSize<>>>>>>>>>", "Size of :" + specialityName)
                                 // DisplayListdata(viewModel,providerName,locationName,pgyName)
 
                             })
@@ -349,18 +334,16 @@ fun PostList(
     var currentPosition by remember { mutableStateOf(-1) }*/
 
     if (showWebView) {
-        Log.e("name", "providerName: " + providerName)
-        Log.e("name", "locationName 2: " + locationName)
-        Log.e("name", "pgyName: " + pgyName)
+
         viewModel.getResidentCompleteSearch(providerName, locationName, pgyName)
         Spacer(modifier = Modifier.height(3.dp))
         // close drop down 2nd
-        val visible by remember {
+       /* val visible by remember {
             mutableStateOf(true)
         }
         val animatedAlpha by animateFloatAsState(
             targetValue = if (visible) 1.0f else 0f, label = "alpha"
-        )
+        )*/
         ResponseView(viewModel)
 
         /* Box(
@@ -419,10 +402,10 @@ fun PostList(
         viewModel.getResidentCompleteSearch(providerName, locationName, pgyName)
         Spacer(modifier = Modifier.height(3.dp))
         // close drop down 2nd
-        val visible by remember { mutableStateOf(true) }
+      /*  val visible by remember { mutableStateOf(true) }
         val animatedAlpha by animateFloatAsState(
             targetValue = if (visible) 1.0f else 0f, label = "alpha"
-        )
+        )*/
         ResponseView(viewModel)
 
     }
@@ -430,8 +413,8 @@ fun PostList(
 
 @Composable
 fun ResponseView(viewModel: ResidentViewModel) {
-    var expandedState by remember { mutableStateOf(false) }
-    var currentPosition by remember { mutableStateOf(-1) }
+    val expandedState by remember { mutableStateOf(false) }
+    var currentPosition by remember { mutableIntStateOf(-1) }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -439,7 +422,7 @@ fun ResponseView(viewModel: ResidentViewModel) {
             .padding(start = 5.dp, top = 145.dp)
     )
     {
-        if (viewModel.residentCompleteSearchListResponse.size != 0) {
+        if (viewModel.residentCompleteSearchListResponse.isNotEmpty()) {
             itemsIndexed(viewModel.residentCompleteSearchListResponse)
             { index, item ->
 
@@ -491,11 +474,11 @@ fun ResponseView(viewModel: ResidentViewModel) {
                                      intent.putExtra("ITEM", item)
                                      context.startActivity(intent)*/
 
-                                    if (currentPosition != index) {
+                                    currentPosition = if (currentPosition != index) {
                                         //  expandedState = !expandedState
-                                        currentPosition = index
+                                        index
                                     } else {
-                                        currentPosition = -1
+                                        -1
                                     }
 
                                 })
@@ -574,7 +557,7 @@ fun FullView(item: ResidentCompleteSearchItem) {
 
 
             Row {
-                if (item.PhoneNo.toString() != "" && item.PhoneNo.toString() != null && item.PhoneNo.toString() != "null") {
+                if (item.PhoneNo.toString() != "" && item.PhoneNo.toString() != "null") {
                     Image(
                         painter = painterResource(id = R.drawable.baseline_call_24),
                         contentDescription = null,
@@ -590,7 +573,7 @@ fun FullView(item: ResidentCompleteSearchItem) {
 
             }
             Row {
-                if (item.MailID.toString() != "" && item.MailID.toString() != null && item.MailID.toString() != "null") {
+                if (item.MailID.toString() != "" && item.MailID.toString() != "null") {
                     Image(
                         painter = painterResource(id = R.drawable.baseline_email_24),
                         contentDescription = null,
@@ -656,8 +639,7 @@ fun FullView(item: ResidentCompleteSearchItem) {
 }
 
 fun getJsondataFromAssets(context: Context, strfile: String): String {
-    var string = ""
-    string = context.assets.open(strfile).bufferedReader().use { it.readText() }
+    val string: String = context.assets.open(strfile).bufferedReader().use { it.readText() }
     return string
 }
 

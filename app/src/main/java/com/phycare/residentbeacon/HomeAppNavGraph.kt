@@ -89,7 +89,7 @@ fun HomeAppNavGraph(
              val pgyList = viewModel.pgyListResponse
              val specialityList = viewModel.specialityListResponse
              NavHost(
-                 navController = navController, startDestination = AllDestinations.PROVIDERS, modifier = modifier.padding(it)
+                 navController = navController, startDestination = AllDestinations.MANAGEPROVIDERS, modifier = modifier.padding(it)
              ) {
 
                  composable(AllDestinations.HOME) {
@@ -97,11 +97,23 @@ fun HomeAppNavGraph(
                  }
 
                  composable(AllDestinations.PROVIDERS) {
+                     viewModel.getAllStates()
+                     viewModel.getAllPGy()
+                     viewModel.getAllSpeciality()
+                     val  stateList = viewModel.stateListResponse
+                     val pgyList = viewModel.pgyListResponse
+                     val specialityList = viewModel.specialityListResponse
                      ProvidersScreen(
-                         navController,viewModel,stateList,pgyList,specialityList
+                         /*navController,*/viewModel,stateList,pgyList,specialityList
                      )
                  }
                  composable(AllDestinations.PROGRAMS) {
+                     viewModel.getAllStates()
+                     viewModel.getAllPGy()
+                     viewModel.getAllSpeciality()
+                     val  stateList = viewModel.stateListResponse
+                     val pgyList = viewModel.pgyListResponse
+                     val specialityList = viewModel.specialityListResponse
                      ProgramsScreen(
                          navController,viewModel,stateList,pgyList,specialityList
                      )
@@ -137,7 +149,7 @@ fun SettingsScreen(navController: NavHostController) {
            //  text = { Text(text = "Do you want tApp Logout")},
             confirmButton = {
 
-             Button(onClick = { /*TODO*/ })
+             Button(onClick = {  })
                  {
                     Text(text = "OK")
                  }
@@ -145,7 +157,7 @@ fun SettingsScreen(navController: NavHostController) {
 
              },
                 dismissButton = {
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = {  }) {
                         Text(text = "Cancel")
                     }
                 }

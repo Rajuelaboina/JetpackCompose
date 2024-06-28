@@ -1,21 +1,22 @@
 package com.phycare.residentbeacon.screens
 
-import android.util.Log
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +28,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,7 +37,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -44,8 +45,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.phycare.residentbeacon.BottomNavigationBar
 import com.phycare.residentbeacon.ResidentViewModel
 import com.phycare.residentbeacon.model.CompleteProgramSearchItem
@@ -84,12 +83,12 @@ fun ProgramListDisplay(
     stateList: List<StatesItem>,
     specialityList: List<SpecialityItem>,
 ) {
-    val context = LocalContext.current
+   // val context = LocalContext.current
     //get the json data
-    val strJson = getJsondataFromAssets(context,"program.json")
+   /* val strJson = getJsondataFromAssets(context,"program.json")
     val gson = Gson()
     val strType = object : TypeToken<List<CompleteProgramSearchItem>>(){}.type
-    val programComSearchList:List<CompleteProgramSearchItem> = gson.fromJson(strJson,strType)
+    val programComSearchList:List<CompleteProgramSearchItem> = gson.fromJson(strJson,strType)*/
     //Log.e("Assets Data","listSize: ${list.size}")
 
     var showWebView by remember { mutableStateOf(false) }
@@ -97,20 +96,19 @@ fun ProgramListDisplay(
     var locationName by remember { mutableStateOf("") }
     var specialityName by remember { mutableStateOf("") }
 
-    if (stateList.size != 0 && specialityList.size != 0) {
-        var ProgramName by remember { mutableStateOf("") }
-        var isError by rememberSaveable { mutableStateOf(false) }
+    if (stateList.isNotEmpty() && specialityList.isNotEmpty()) {
+        //var programName by remember { mutableStateOf("") }
+        val isError by rememberSaveable { mutableStateOf(false) }
         var itemsp by remember { mutableStateOf("") }
         var expanded by remember { mutableStateOf(false) }
-        var selectedItemIndex by remember { mutableStateOf(0) }
-        Column(modifier = Modifier.fillMaxSize()) {
+        var selectedItemIndex by remember { mutableIntStateOf(0) }
+        Column(modifier = Modifier.background(color = Color.White).fillMaxSize()) {
 
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)) {
                 OutlinedTextField(
-                    value = ProgramName,
+                    value = programName,
                     onValueChange = {
-                        ProgramName = it
-                        programName = ProgramName
+                        programName = it
                         showWebView = true
                     },
                     label = { Text(text = "Program name")},
@@ -135,7 +133,7 @@ fun ProgramListDisplay(
                         .padding(
                             start = 5.dp, end = 2.dp, top = 10.dp, bottom = 1.dp
                         )
-                        .weight(1f)
+                        .weight(1f).align(Alignment.CenterVertically)
                 ) {
                     OutlinedTextField(
                         value = stateList[selectedItemIndex].Location,
@@ -151,7 +149,7 @@ fun ProgramListDisplay(
                     ExposedDropdownMenu(expanded = expanded,
                         onDismissRequest = { expanded = false }) {
                         stateList.forEachIndexed { index, item ->
-                            var userCity = item.Location
+                           // var userCity = item.Location
                             DropdownMenuItem(text = {
                                 Text(
                                     text = item.Location,
@@ -161,14 +159,14 @@ fun ProgramListDisplay(
                             }, onClick = {
                                 selectedItemIndex = index
                                 expanded = false
-                                if (item.Location.equals("All")) {
+                                if (item.Location == "All") {
                                     locationName = ""
                                 } else {
                                     showWebView = true
                                     locationName = item.Location
                                 }
 
-                                Log.e("locationName<>>>>>>>>>", "locationName :" + locationName)
+                               // Log.e("locationName<>>>>>>>>>", "locationName :" + locationName)
                                 //showWebView = true
                             })
 
@@ -180,7 +178,7 @@ fun ProgramListDisplay(
 
                 //       speciality dropdown -------------- //
                 var expandedspeciality by remember { mutableStateOf(false) }
-                var selectedItemIndexspeciality by remember { mutableStateOf(0) }
+                var selectedItemIndexspeciality by remember { mutableIntStateOf(0) }
                 ExposedDropdownMenuBox(
                     expanded = expandedspeciality,
                     onExpandedChange = { expandedspeciality = !expandedspeciality },
@@ -188,7 +186,7 @@ fun ProgramListDisplay(
                         .padding(
                             start = 10.dp, end = 10.dp, top = 5.dp, bottom = 1.dp
                         )
-                        .weight(1f)
+                        .weight(1f).align(Alignment.CenterVertically)
 
                 ) {
                     OutlinedTextField(
@@ -209,7 +207,7 @@ fun ProgramListDisplay(
                         expanded = expandedspeciality,
                         onDismissRequest = { expandedspeciality = false }) {
                         specialityList.forEachIndexed { index, item ->
-                            var userSpeciality = item.Speciality
+                          //  var userSpeciality = item.Speciality
                             DropdownMenuItem(text = {
                                 Text(
                                     text = item.Speciality,
@@ -219,13 +217,13 @@ fun ProgramListDisplay(
                             }, onClick = {
                                 selectedItemIndexspeciality = index
                                 expandedspeciality = false
-                                if (item.Speciality.equals("All")) {
+                                if (item.Speciality == "All") {
                                     specialityName = ""
                                 } else {
                                     specialityName = item.Speciality
                                     showWebView = true
                                 }
-                                Log.e("ListSize<>>>>>>>>>", "Size of :" + specialityName)
+                                //.e("ListSize<>>>>>>>>>", "Size of :" + specialityName)
                                 // DisplayListdata(viewModel,providerName,locationName,pgyName)
 
                             })
@@ -241,107 +239,357 @@ fun ProgramListDisplay(
 
     } //if close
     if (showWebView) {
-        Log.e("name", "providerName: " + programName)
+       /* Log.e("name", "providerName: " + programName)
         Log.e("name", "locationName 2: " + locationName)
-        Log.e("name", "specialityName: " + specialityName)
+        Log.e("name", "specialityName: " + specialityName)*/
         viewModel.getProgramCompleteSearchData(programName, locationName, specialityName)
-        Spacer(modifier = Modifier.height(3.dp))
+        //Spacer(modifier = Modifier.height(0.dp))
         // close drop down 2nd
-        val visible by remember {
-            mutableStateOf(true)
-        }
-        val animatedAlpha by animateFloatAsState(
-            targetValue = if (visible) 1.0f else 0f, label = "alpha"
-        )
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 5.dp, top = 80.dp)
-            /*.graphicsLayer { alpha = animatedAlpha }*/) {
-            LazyColumn {
-                if (viewModel.programComSearchListResponse.size != 0) {
-                    itemsIndexed(viewModel.programComSearchListResponse) { index, item ->
+        UserProgramView(viewModel)
 
-                        Row {
-
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                                    .align(Alignment.CenterVertically)
-                            ) {
-                                Text(
-                                    text = item.ProgramName.trim(),
-                                    style = MaterialTheme.typography.titleLarge
-                                )
-                                Text(
-                                    text = item.Speciality.trim(),
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-
-                            }
-                        }
-                        Divider()
-                        //}
-                    }
-                }
-            }
-
-        }
     }
     else{
         viewModel.getProgramCompleteSearchData(programName,locationName,specialityName)
-        Spacer(modifier = Modifier.height(3.dp))
+        //Spacer(modifier = Modifier.height(3.dp))
         // close drop down 2nd
-        val visible by remember {
+        /*val visible by remember {
             mutableStateOf(true)
         }
         val animatedAlpha by animateFloatAsState(
             targetValue = if (visible) 1.0f else 0f, label = "alpha"
-        )
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .fillMaxWidth()
-            .padding(start = 5.dp, top = 80.dp)
-            /*.graphicsLayer { alpha = animatedAlpha }*/) {
-            LazyColumn(modifier = Modifier
-                .fillMaxSize()
-                .fillMaxWidth()) {
-                if (/*viewModel.programComSearchListResponse.size*/ programComSearchList.size != 0) {
-                    itemsIndexed(/*viewModel.programComSearchListResponse*/ programComSearchList) { index, item ->
+        )*/
+        UserProgramView(viewModel)
 
-                        Row(modifier = Modifier.clickable {
-                           /* val intent = Intent(context, ProvidersDetailsActivity::class.java)
-                            intent.putExtra("ITEM",item)
-                            context.startActivity(intent)*/
-                        }) {
+    }
 
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                                    .align(Alignment.CenterVertically)
-                            ) {
-                                Text(
-                                    text = item.ProgramName.trim(),
-                                    style = MaterialTheme.typography.titleLarge
-                                )
-                                Text(
-                                    text = "Speciality : "+ item.Speciality.trim(),
-                                    style = MaterialTheme.typography.titleMedium
-                                )
+}
+@Composable
+fun UserProgramView(viewModel: ResidentViewModel) {
+   // val expandedState by remember { mutableStateOf(false) }
+    var currentPosition by remember { mutableIntStateOf(-1) }
+    LazyColumn(modifier = Modifier
+        .fillMaxSize()
+        .fillMaxWidth()
+        .padding(start = 5.dp, top = 90.dp))
+    {
+        if (viewModel.programComSearchListResponse.isNotEmpty())
+        {
+            itemsIndexed(viewModel.programComSearchListResponse) { index, item ->
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .fillMaxWidth()
 
+                ){
+                    Card(modifier = Modifier
+                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .padding(3.dp)
+                        .animateContentSize(
+                            animationSpec = tween(
+                                durationMillis = 300,
+                                easing = LinearOutSlowInEasing
+                            )
+                        ),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = CardDefaults.cardColors(Color.White),
+                        elevation = CardDefaults.cardElevation(10.dp)
+                    )
+                    {
+                        Column(modifier = Modifier
+                            .clickable {
+                                /* val intent = Intent(context, ProvidersDetailsActivity::class.java)
+                             intent.putExtra("ITEM", item)
+                             context.startActivity(intent)*/
+
+                                currentPosition = if (currentPosition != index) {
+                                    //  expandedState = !expandedState
+                                    index
+                                } else {
+                                    -1
+                                }
 
                             }
+                            .fillMaxSize()
+                            .fillMaxWidth()
+                        )
+                        {
+                            if (currentPosition != index) {
+                                Column(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start=10.dp, bottom = 5.dp)
+                                    .align(Alignment.CenterHorizontally)
+                                ) {
+                                    Text(
+                                        text = "Program Name : ",
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
+                                    Text(
+                                        text = item.programName.trim(),
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Text(
+                                        text = "Speciality : ",
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
+                                    Text(
+                                        text = item.speciality.trim(),
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    Text(
+                                        text = "Location : ",
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
+                                    Text(
+                                        text = item.location.trim(),
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                }
+                                Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
 
+                            }else{
+                                 FullView(item)
+                            }
                         }
-                        Divider()
-                        //  15+10+10=25
                     }
                 }
             }
-
         }
-    }
+    } //LazyColumn close
+}
+
+@Composable
+fun FullView(item: CompleteProgramSearchItem) {
+      Column(modifier = Modifier
+          .fillMaxWidth()
+          .padding(start = 16.dp).background(Color.LightGray )) {
+          Text(
+              text = "Program Id " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.programID.toString(),
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Program Name" ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.programName,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Speciality" ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.speciality,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Location" ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.location,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "AdminInfo" ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.adminInfo,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "ContactInfo" ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.contactInfo,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Program Link " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.programLink,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Residency Link",
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text = item.residencyLink,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+             text = " Last Updated " ,
+             style = MaterialTheme.typography.titleLarge
+         )
+         Text(
+             text =  item.lastUpdated,
+             style = MaterialTheme.typography.titleMedium
+         )
+         Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+            Text(
+                text = "Survey Received" ,
+                style = MaterialTheme.typography.titleLarge
+            )
+            Text(
+                text =  item.surveyReceived,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+            Text(
+                text = "Location info " ,
+                style = MaterialTheme.typography.titleLarge
+            )
+            Text(
+                text =  item.locationInfo,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+            Text(
+                text = "Sponsor " ,
+                style = MaterialTheme.typography.titleLarge
+            )
+            Text(
+                text =  item.sponsor,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Participant1 " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.participant1,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+
+          /*Text(
+              text = "Participant2" ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.participant2,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))*/
+         /* Text(
+              text = "Participant3" ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.participant3,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))*/
+         /* Text(
+              text = "Program type " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.programType,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Program Affiliation" ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.programAffiliation,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = " Accredited Years" ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.accreditedYears.toString(),
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Required Years " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.requiredYears.toString(),
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = " Accepting Applications " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.acceptingApplications,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Accepting Next Year " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.acceptingNextYear,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Starting Date " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.startingDate,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "ERAS Participant " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.eRASParticipant,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Government Affiliated " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.governmentAffiliated,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Text(
+              text = "Additional Comments " ,
+              style = MaterialTheme.typography.titleLarge
+          )
+          Text(
+              text =  item.additionalComments,
+              style = MaterialTheme.typography.titleMedium
+          )
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))*/
+
+      }
 
 }
 

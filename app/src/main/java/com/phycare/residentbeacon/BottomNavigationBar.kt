@@ -73,7 +73,7 @@ fun BottomNavigationBar(viewModel: ResidentViewModel) {
              composable(Screens.Residents.route) {
 
                  ProvidersScreen(
-                     navController,viewModel,stateList,pgyList,specialityList
+                     viewModel,stateList,pgyList,specialityList
                  )
              }
              composable(Screens.Programs.route) {

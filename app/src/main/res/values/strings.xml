@@ -9,4 +9,7 @@
     <string name="manageProviders">Manage Providers</string>
     <string name="communication">Communication</string>
     <string name="logout">Logout</string>
+
+    <string name="fileprovider">com.phycare.residentbeacon_take_select_photo_image.components.fileprovider</string>
+
 </resources>

@@ -65,11 +65,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.phycare.residentbeacon.AddUserActivity
+import com.phycare.residentbeacon.AllDestinations
 import com.phycare.residentbeacon.R
 import com.phycare.residentbeacon.ResidentViewModel
+import com.phycare.residentbeacon.Screens
 import com.phycare.residentbeacon.model.PGYItem
 import com.phycare.residentbeacon.model.ResidentCompleteSearchItem
 import com.phycare.residentbeacon.model.SpecialityItem
@@ -97,7 +100,12 @@ fun ManageProvidersScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     shape = CircleShape,
-                    onClick = { context.startActivity(Intent(context,AddUserActivity::class.java)) }
+                    onClick = {
+                        context.startActivity(Intent(context,AddUserActivity::class.java))
+
+                       // navController.navigate(AllDestinations.PROGRAMS)
+                       //
+                    }
                 ) {
                     Icon(imageVector = Icons.Default.Add , contentDescription ="Image" )
                   }
@@ -588,19 +596,24 @@ fun EachRow(
                     modifier = modifier
                         .padding(start = 0.dp, top = 8.dp)
                 )
-                Row(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)) {
 
                     Text(
                         text = "Location : " + item.Location,
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.weight(6f).align(Alignment.CenterVertically)
+                        modifier = Modifier
+                            .weight(6f)
+                            .align(Alignment.CenterVertically)
                     )
 
                     Checkbox(
                         checked = selectedItem, onCheckedChange = {null
                         }, modifier = Modifier
                             .padding(0.dp)
-                            .weight(1f).align(Alignment.CenterVertically)
+                            .weight(1f)
+                            .align(Alignment.CenterVertically)
 
                     )
                 }
