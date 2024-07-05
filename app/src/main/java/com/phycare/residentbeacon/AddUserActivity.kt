@@ -13,6 +13,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -207,7 +208,7 @@ private fun AddUserView(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = Color.LightGray),
+                /*.background(color = Color.LightGray)*/,
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -230,10 +231,11 @@ private fun AddUserView(
                     error = painterResource(id = R.drawable.doctor),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .padding(10.dp)
-                        .size(90.dp)
+                        .padding(8.dp)
+                        .size(100.dp)
                         .align(alignment = Alignment.Center)
-                        .clip(CircleShape),
+                        .clip(CircleShape)
+                        .border(2.dp, Color.Gray, CircleShape)
                 )
 
                 IconButton(modifier = Modifier
@@ -256,7 +258,8 @@ private fun AddUserView(
         }// 1st child column close
 
         Column(
-            modifier = Modifier.height(650.dp)
+            modifier = Modifier
+                .height(650.dp)
                 .verticalScroll(state = rememberScrollState(), enabled = true)
                 .fillMaxWidth(),verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -281,9 +284,12 @@ private fun AddUserView(
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -304,7 +310,10 @@ private fun AddUserView(
                     onValueChange = { locationName = viewModel.stateListResponse[selectedItemIndex].Location },
                     readOnly = true,
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                    modifier = Modifier.menuAnchor().fillMaxWidth().fillMaxSize(),
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth()
+                        .fillMaxSize(),
                     shape = RoundedCornerShape(5.dp),
                     label = { Text("Location") },
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
@@ -354,7 +363,10 @@ private fun AddUserView(
                     value = viewModel.pgyListResponse[selectedItemIndexPgy].PGY, onValueChange = {},
                     readOnly = true,
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedPgy) },
-                    modifier = Modifier.menuAnchor().fillMaxWidth().fillMaxSize(),
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth()
+                        .fillMaxSize(),
                     shape = RoundedCornerShape(5.dp),
                     label = { Text("PGY") },
                     /*colors = TextFieldDefaults.textFieldColors(
@@ -407,13 +419,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.classof)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -423,13 +438,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.residency)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -439,13 +457,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.startyear)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -455,13 +476,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.education)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -471,13 +495,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.graduate_school)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -487,13 +514,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.under_graduate_college)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -503,13 +533,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.medical_school)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -519,13 +552,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.internship)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -535,13 +571,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.track)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -551,13 +590,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.major)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -567,13 +609,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.fellowship)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -583,13 +628,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.future_plan)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -599,13 +647,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.hometown)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -615,13 +666,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.instagram_id)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -631,13 +685,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.twitter_id)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -647,13 +704,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.mail_id)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -663,13 +723,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = stringResource(id = R.string.phone_no)) },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -679,13 +742,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = "FAX No") },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -695,13 +761,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = "Address") },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -711,13 +780,16 @@ private fun AddUserView(
                 onValueChange = {
                     residentName = it
                 },
-                label = { Text(text = "Provider name") },
+                label = { Text(text = "MIS") },
                 isError = isError,
                 shape = RoundedCornerShape(5.dp),
                 // placeholder = { Text(text = "Enter Username")},
-                modifier = Modifier.padding(
-                    start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
-                ).fillMaxWidth().fillMaxSize(),
+                modifier = Modifier
+                    .padding(
+                        start = 10.dp, end = 10.dp, top = 10.dp, bottom = 1.dp
+                    )
+                    .fillMaxWidth()
+                    .fillMaxSize(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                 )
@@ -727,12 +799,16 @@ private fun AddUserView(
         }// column
 
         // last column ------------
-        Column(modifier = Modifier.align(Alignment.CenterHorizontally)
-            .fillMaxWidth().padding(start = 5.dp, end = 5.dp),
+        Column(modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .fillMaxWidth()
+            .padding(start = 5.dp, end = 5.dp),
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally) {
             Row {
-                Button(modifier = Modifier.weight(1f).padding(end = 5.dp),onClick = {  }) {
+                Button(modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 5.dp),onClick = {  }) {
                     Text(text = "Back")
                 }
                 Button(modifier = Modifier.weight(1f),onClick = {  }) {
