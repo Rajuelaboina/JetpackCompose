@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -267,6 +268,19 @@ fun ProgramListDisplay(
 fun UserProgramView(viewModel: ResidentViewModel) {
    // val expandedState by remember { mutableStateOf(false) }
     var currentPosition by remember { mutableIntStateOf(-1) }
+    var isShow by rememberSaveable { mutableStateOf(true) }
+    if (isShow){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .fillMaxWidth()
+                .padding(start = 5.dp, top = 90.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator()
+            Text(text = "loading..")
+        }
+    }
     LazyColumn(modifier = Modifier
         .fillMaxSize()
         .fillMaxWidth()
@@ -274,6 +288,7 @@ fun UserProgramView(viewModel: ResidentViewModel) {
     {
         if (viewModel.programComSearchListResponse.isNotEmpty())
         {
+            isShow = false
             itemsIndexed(viewModel.programComSearchListResponse) { index, item ->
                 Box(modifier = Modifier
                     .fillMaxSize()
@@ -424,7 +439,7 @@ fun FullView(item: CompleteProgramSearchItem) {
               text =  item.programLink,
               style = MaterialTheme.typography.titleMedium
           )
-          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          /*Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
           Text(
               text = "Residency Link",
               style = MaterialTheme.typography.titleLarge
@@ -478,7 +493,7 @@ fun FullView(item: CompleteProgramSearchItem) {
               text =  item.participant1,
               style = MaterialTheme.typography.titleMedium
           )
-          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+          Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))*/
 
           /*Text(
               text = "Participant2" ,

@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -406,6 +407,7 @@ fun PostList(
         val animatedAlpha by animateFloatAsState(
             targetValue = if (visible) 1.0f else 0f, label = "alpha"
         )*/
+
         ResponseView(viewModel)
 
     }
@@ -415,6 +417,22 @@ fun PostList(
 fun ResponseView(viewModel: ResidentViewModel) {
     val expandedState by remember { mutableStateOf(false) }
     var currentPosition by remember { mutableIntStateOf(-1) }
+    var isShow by rememberSaveable { mutableStateOf(true) }
+
+    if (isShow){
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .fillMaxWidth()
+                .padding(start = 5.dp, top = 145.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator()
+            Text(text = "loading..")
+        }
+    }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -422,7 +440,10 @@ fun ResponseView(viewModel: ResidentViewModel) {
             .padding(start = 5.dp, top = 145.dp)
     )
     {
+
+
         if (viewModel.residentCompleteSearchListResponse.isNotEmpty()) {
+               isShow = false
             itemsIndexed(viewModel.residentCompleteSearchListResponse)
             { index, item ->
 

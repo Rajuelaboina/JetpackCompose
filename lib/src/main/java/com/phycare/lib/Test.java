@@ -1,9 +1,13 @@
 package com.phycare.lib;
 
+
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Test {
     public static void main(String[] args) {
@@ -361,7 +365,7 @@ public class Test {
             }
         }*/
         // =============== Array Max and MIN =======================
-        int a[]={1,423,6,46,34,23,13,53,4};
+        //int a[]={1,423,6,46,34,23,13,53,4};
        /* Arrays.sort(a);
         System.out.println("min: "+ a[0] +" "+"max: "+ a[a.length-1]);*/
         /*int temp;
@@ -392,5 +396,149 @@ public class Test {
              System.out.print(originalArr[i]);
         }*/
 
+
+      /*  String str = "welcome",rev="";
+        char ch;
+        for (int i=0;i<str.length(); i++){
+            ch = str.charAt(i);
+            rev = ch+rev;
+
+        }
+
+        System.out.print(rev);
+        String str = "welcome";
+        String rev="";
+        for (int i=0;i<str.length(); i++){
+            rev = str.charAt(i)+rev;
+        }
+        System.out.print(rev); */
+        
+        // === Binary Search array --------------------
+        /*int a[]={1,423,6,46,34,23,13,53,4};
+        Arrays.sort(a);
+        for (int i:a) {
+            System.out.print(i+" ");
+        }
+        System.out.println();
+        int low =0;  // 0
+        int high = a.length-1;
+
+       // System.out.println(low); // 0
+       // System.out.println(heigh);// 8
+
+        int num = 34;
+        while (low<=high) {
+            int mid =(low+high)/2;
+           // System.out.println(mid); // 4
+            if (num == a[mid]){
+                System.out.println( "search num : "+mid); // 4
+                break;
+            }
+            if (num < a[mid]){
+                high = mid - 1;
+            }
+            if (num > a[mid]){
+                low = mid + 1;
+            }
+        }*/
+        // Linear Search
+       /* int num = 53;
+        for (int i = 0; i < a.length; i++) {
+            if (num == a[i] ){
+                System.out.println( "search num : "+ i);
+                break;
+            }else {
+                System.out.println( "search num : -1");
+            }
+        }*/
+
+       /* List<Integer> list = Arrays.asList(1,2,4,6,8);
+        int index = Collections.binarySearch(list,6);
+        System.out.println( "search num index of: "+ index);*/
+
+        /*List<Integer> list = Arrays.asList(8,6,4,2,1);
+        CustomComparator comparator = new CustomComparator();
+        int index = Collections.binarySearch(list,6, comparator);
+
+        System.out.println( "search num index of: "+ index);
+        int[] integers = {3, 22, 27, 47, 57, 67, 89, 91, 95, 99};
+        int idex = Arrays.binarySearch(integers,91);
+        System.out.println( "search num index of2    : "+ idex);
+        System.out.println( "index of2    : "+ list.indexOf(4));*/
+
+        /*List list = new ArrayList();
+         list.add(10);
+        list.add(20);
+        list.add(30);
+        list.add(40);
+        list.add(22);
+        list.add(5);
+        list.add(15);
+        System.out.println( "index of 2    : "+ list.indexOf(4));
+        System.out.println( "index of2    : "+ list.contains(20));*/
+
+       /* Map<Integer,String> map = new HashMap();
+        map.put(4,"Android");
+        map.put(6,"Java");
+        map.put(10,"Ten");
+        map.put(8,"Ios");
+        System.out.println("value of : "+map.get(6));
+        System.out.println("value of : "+map.containsKey(10));*/
+
+     //   String str = "hellowelcome";
+       // System.out.println(str.indexOf('l')); // h
+       // System.out.println(str.indexOf('e',0));  //hell
+       // System.out.println(str.indexOf("o"));
+        //System.out.println(str.lastIndexOf('e'));
+       // System.out.println(str.lastIndexOf('l',3));
+       // System.out.println(str.substring(2));
+       // System.out.println(str.substring(1,4));
+      //  System.out.println(str.intern());
+        int[] num = {2,3,4,5,6,7};
+        int first= num[0];
+
+        if (num.length > 3) {
+            for (int i = 1; i < num.length; i++) {
+                if ( num[i] > first)  {
+                    first = num[i];
+                }
+            }
+          //  System.out.println(first);
+
+            int second = num[0];
+            for (int i = 0; i < num.length; i++) {
+                if ( num[i] > second && num[i] < first)  {
+                    second = num[i];
+                }
+            }
+            int third = Integer.MIN_VALUE;
+            for (int i = 0; i < num.length; i++) {
+                if ( num[i] > third && num[i] < second)  {
+                    third = num[i];
+
+                }
+            }
+            System.out.printf("The third Largest " +
+                    "element is %d\n", third);
+        }else {
+            for (int i = 1; i < num.length; i++) {
+                if ( num[i] > first)  {
+                    first = num[i];
+                }
+            }
+            System.out.printf("The third Largest " +
+                    "element is %d\n", first);
+        }
+
+
+
+
+    }
+}
+class CustomComparator implements Comparator<Integer>{
+
+    @Override
+    public int compare(Integer a, Integer b) {
+        return b-a;
     }
 }

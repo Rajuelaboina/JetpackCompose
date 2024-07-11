@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+   // id("kotlin-android-extensions")
+   // id("kotlin-kapt")
+
 }
 
 android {
@@ -50,7 +53,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -74,13 +76,44 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     // retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.gson)
     //glide
-    implementation("com.google.accompanist:accompanist-glide:0.10.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
-    implementation("androidx.lifecycle:lifecycle-livedata:2.3.1")
-    implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation("com.razorpay:checkout:1.6.38")
+    implementation(libs.accompanist.glide)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.livedata)
+    implementation(libs.coil.compose)
+    implementation(libs.checkout)
+
+
+   /* implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+
+
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+
+
+    implementation( libs.androidx.room.runtime)
+    implementation( libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.rxjava2)*/
+
+
+   /* def coroutines_version = "1.6.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"*/
+
+
+    //RxJava
+   /* implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+    implementation(libs.adapter.rxjava2)*/
+
+   /* implementation("com.google.dagger:dagger-android:2.11")
+    implementation ("com.google.dagger:dagger-android-support:2.11") // if you use the support libraries
+    annotationProcessor("com.google.dagger:dagger-android-processor:2.11")
+    annotationProcessor("com.google.dagger:dagger-compiler:2.11")*/
 }

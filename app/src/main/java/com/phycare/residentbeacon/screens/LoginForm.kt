@@ -1,10 +1,13 @@
 package com.phycare.residentbeacon.screens
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +24,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,19 +51,25 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.phycare.residentbeacon.HomeActivity
+import com.phycare.residentbeacon.LoginActivity
 import com.phycare.residentbeacon.PreferencesManager
 import com.phycare.residentbeacon.R
 import com.phycare.residentbeacon.ui.theme.BeaconComposeTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import okhttp3.internal.http2.Http2Reader
 
 @Composable
 fun LoginForm() {
+    var progress: Float by remember { mutableStateOf(0.75f) }
    // Surface {
-       val context = LocalContext.current
+       val scope = rememberCoroutineScope()
+       val context = LocalContext.current.applicationContext
         val preferencesManager = remember { PreferencesManager(context) }
         val data = remember { mutableStateOf(preferencesManager.getData()) }
         var username by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
-        val isError by rememberSaveable { mutableStateOf(false) }
+        var isShow by rememberSaveable { mutableStateOf(false) }
         var credentials by remember { mutableStateOf(Credentials()) }
 
             if (PreferencesManager(context).rememberGetData().remember){
@@ -69,59 +80,92 @@ fun LoginForm() {
           //  Kotlin, DevOps, Agile, GIT, Figma
 
     Log.e("IFIFIFI",">>>>>><<<< : "+username);
+     Box(
+        modifier =  Modifier.fillMaxWidth()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 30.dp)
-        ) {
-            LoginField(
-                value = username,
-                onChange = { data -> credentials = credentials.copy(login = data) },
-                modifier = Modifier.fillMaxWidth(),
-                checkRemeb = credentials.remember
+     ) {
 
-            )
-            Spacer(modifier = Modifier.height(3.dp))
-            PasswordField(
-                value = credentials.pwd,
-                onChange = { data -> credentials = credentials.copy(pwd = data) },
-                /*submit = {
-                    if (!checkCredentials(credentials, context)) credentials = Credentials()
-                },*/
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            LabeledCheckbox(
-                label = "Remember Me",
-                modifier = Modifier.align(Alignment.Start),
-                onCheckChanged = {
-                    credentials = credentials.copy(remember = !credentials.remember)
-                },
-                isChecked = credentials.remember
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(
-                onClick = {
 
-                    if (!checkCredentials(credentials, context)) credentials = Credentials()
-                },
-               // enabled = credentials.isNotEmpty(),
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .size(100.dp)
-                    .padding(bottom = 10.dp)
-            ) {
-                Text("Login")
-            }
-        }
+         Column(
+             modifier = Modifier
+                 .fillMaxSize()
+                 .padding(horizontal = 30.dp)
+         ) {
+             LoginField(
+                 value = credentials.login,
+                 onChange = { data -> credentials = credentials.copy(login = data) },
+                 modifier = Modifier.fillMaxWidth(),
+                 checkRemeb = credentials.remember
+
+             )
+             Spacer(modifier = Modifier.height(3.dp))
+             PasswordField(
+                 value = credentials.pwd,
+                 onChange = { data -> credentials = credentials.copy(pwd = data) },
+                 /*submit = {
+                     if (!checkCredentials(credentials, context)) credentials = Credentials()
+                 },*/
+                 modifier = Modifier.fillMaxWidth()
+             )
+             Spacer(modifier = Modifier.height(6.dp))
+             LabeledCheckbox(
+                 label = "Remember Me",
+                 modifier = Modifier.align(Alignment.Start),
+                 onCheckChanged = {
+                     credentials = credentials.copy(remember = !credentials.remember)
+                 },
+                 isChecked = credentials.remember
+             )
+             Spacer(modifier = Modifier.height(20.dp))
+           Button(
+                 onClick = {
+                     isShow = true
+                     scope.launch {
+                         delay(1000)
+                         if (!checkCredentials(credentials, context)) {
+                             credentials = Credentials()
+                         }
+                         isShow = false
+                     }
+                    /* if (!checkCredentials(credentials, context)) {
+                         isShow = false
+                         credentials = Credentials()
+                     }else{
+                         isShow = true
+
+
+                     }*/
+                     //isShow = false
+                 },
+                 // enabled = credentials.isNotEmpty(),
+                 shape = RoundedCornerShape(5.dp),
+                 modifier = Modifier
+                     .align(Alignment.CenterHorizontally)
+                     .size(100.dp)
+                     .padding(bottom = 10.dp)
+             ) {
+                 Text("Login")
+             }
+             if (isShow){
+                 //if(credentials.isShowing){
+                 Column(
+                     modifier = Modifier.fillMaxWidth(),
+                     horizontalAlignment = Alignment.CenterHorizontally
+                 ) {
+                     CircularProgressIndicator()
+                     Text(text = "loading..")
+                 }
+             }
+         }
+     }
+
+
    // }
 }
 
+
+
 fun checkCredentials(creds: Credentials, context: Context): Boolean {
-
-
     /*if (creds.isNotEmpty() *//*&& creds.login == "admin"*//*) {
         Log.e("Login user name","userName: "+creds.login)
         GlobalScope.launch {
@@ -149,10 +193,13 @@ fun checkCredentials(creds: Credentials, context: Context): Boolean {
     }
     else {
         //Toast.makeText(context, "Wrong Credentials", Toast.LENGTH_SHORT).show()
-
+             creds.isShowing = true
         PreferencesManager(context).saveData(creds)
         PreferencesManager(context).rememberSaveData(creds)
-        context.startActivity(Intent(context, HomeActivity::class.java))
+        val intent = Intent(context, HomeActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+       context.startActivity(intent)
+
        val pref = PreferencesManager(context).getData()
         Log.e("SharedPref",pref.login)
         Log.e("SharedPref",pref.pwd)
@@ -163,7 +210,8 @@ fun checkCredentials(creds: Credentials, context: Context): Boolean {
 data class Credentials(
     var login: String = "",
     var pwd: String = "",
-    var remember: Boolean = false
+    var remember: Boolean = false,
+    var isShowing: Boolean = false
 ) {
     fun isNotEmpty(): Boolean {
         return login.isNotEmpty() && pwd.isNotEmpty()

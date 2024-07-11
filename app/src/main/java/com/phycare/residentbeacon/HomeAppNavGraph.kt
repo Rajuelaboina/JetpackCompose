@@ -1,6 +1,6 @@
 package com.phycare.residentbeacon
 
-import android.icu.text.CaseMap.Title
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -25,6 +25,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -67,6 +69,7 @@ fun HomeAppNavGraph(
 
          Scaffold(
              topBar = {
+                 val context = LocalContext.current
                  TopAppBar(title = { Text(text = currentRoute)},
                      modifier = Modifier.fillMaxWidth(),
                      navigationIcon ={
@@ -76,7 +79,19 @@ fun HomeAppNavGraph(
                             Icon(imageVector = Icons.Default.Menu, contentDescription = null)
                          })
 
-                     },  colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                     },
+                     colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                     actions = {
+                         IconButton(onClick =
+                                {
+                                 PreferencesManager(context).clearData(context)
+                                // Toast.makeText(context, "Favorite", Toast.LENGTH_SHORT).show()
+                             }
+                         )
+                         {
+                             Icon(painterResource(id = R.drawable.logout_24), "")
+                         }
+                     }
                  )
 
              }, modifier = Modifier
@@ -89,7 +104,7 @@ fun HomeAppNavGraph(
              val pgyList = viewModel.pgyListResponse
              val specialityList = viewModel.specialityListResponse
              NavHost(
-                 navController = navController, startDestination = AllDestinations.MANAGEPROVIDERS, modifier = modifier.padding(it)
+                 navController = navController, startDestination = AllDestinations.PROVIDERS, modifier = modifier.padding(it)
              ) {
 
                  composable(AllDestinations.HOME) {
@@ -141,6 +156,7 @@ fun HomeAppNavGraph(
 
 @Composable
 fun SettingsScreen(navController: NavHostController) {
+    val context = LocalContext.current
         val alert = remember { mutableStateOf(true)}
         if (alert.value){
             AlertDialog(onDismissRequest = { alert.value = false },
@@ -149,7 +165,9 @@ fun SettingsScreen(navController: NavHostController) {
            //  text = { Text(text = "Do you want tApp Logout")},
             confirmButton = {
 
-             Button(onClick = {  })
+             Button(onClick = {
+                 PreferencesManager(context).clearData(context)
+             })
                  {
                     Text(text = "OK")
                  }
@@ -157,7 +175,9 @@ fun SettingsScreen(navController: NavHostController) {
 
              },
                 dismissButton = {
-                    Button(onClick = {  }) {
+                    Button(
+                        onClick = { alert.value = false
+                        navController.navigate(AllDestinations.PROVIDERS)}) {
                         Text(text = "Cancel")
                     }
                 }
