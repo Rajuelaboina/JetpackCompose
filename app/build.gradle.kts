@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-   // id("kotlin-android-extensions")
-   // id("kotlin-kapt")
+   //id("kotlin-android-extensions")
+    id("kotlin-kapt")
 
 }
 
@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.phycare.residentbeacon"
-        minSdk = 24
+        minSdk = 27
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -116,4 +116,11 @@ dependencies {
     implementation ("com.google.dagger:dagger-android-support:2.11") // if you use the support libraries
     annotationProcessor("com.google.dagger:dagger-android-processor:2.11")
     annotationProcessor("com.google.dagger:dagger-compiler:2.11")*/
+    // Room Local DB
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.runtime.livedata)
+    annotationProcessor(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
 }

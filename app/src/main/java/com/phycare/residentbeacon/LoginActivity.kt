@@ -17,11 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,7 +25,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.phycare.residentbeacon.screens.LoginForm
 import com.phycare.residentbeacon.screens.LoginForm2
 import com.phycare.residentbeacon.ui.theme.BeaconComposeTheme
 
@@ -41,11 +35,11 @@ class LoginActivity : ComponentActivity() {
         setContent {
             BeaconComposeTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    var username by remember { mutableStateOf("") }
-                    var password by remember { mutableStateOf("") }
-                    val checkedState = remember { mutableStateOf(false) }
-                    val isError by rememberSaveable { mutableStateOf(false) }
-                    var passwordVisibility: Boolean by remember { mutableStateOf(false) }
+                  //  var username by remember { mutableStateOf("") }
+                  //  var password by remember { mutableStateOf("") }
+                  //  val checkedState = remember { mutableStateOf(false) }
+                  //  val isError by rememberSaveable { mutableStateOf(false) }
+                  //  var passwordVisibility: Boolean by remember { mutableStateOf(false) }
                     Box(modifier = Modifier.fillMaxSize().background(
                         color = Color.LightGray)
                     )
@@ -149,7 +143,7 @@ class LoginActivity : ComponentActivity() {
                                 Button(modifier = Modifier.align(Alignment.CenterHorizontally),
                                     colors = ButtonDefaults.buttonColors(containerColor = colorResource(
                                         id = R.color.btn_color), contentColor = Color.White),
-                                    onClick = { *//*TODO*//* }
+                                    onClick = { *//**//* }
                                 )
                                 {
                                     Text(text = "Login")

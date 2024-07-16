@@ -54,6 +54,7 @@ import com.phycare.residentbeacon.HomeActivity
 import com.phycare.residentbeacon.LoginActivity
 import com.phycare.residentbeacon.PreferencesManager
 import com.phycare.residentbeacon.R
+import com.phycare.residentbeacon.model.Credentials
 import com.phycare.residentbeacon.ui.theme.BeaconComposeTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -66,7 +67,7 @@ fun LoginForm() {
        val scope = rememberCoroutineScope()
        val context = LocalContext.current.applicationContext
         val preferencesManager = remember { PreferencesManager(context) }
-        val data = remember { mutableStateOf(preferencesManager.getData()) }
+        //val data = remember { mutableStateOf(preferencesManager.getData()) }
         var username by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var isShow by rememberSaveable { mutableStateOf(false) }
@@ -207,16 +208,6 @@ fun checkCredentials(creds: Credentials, context: Context): Boolean {
     }
 }
 
-data class Credentials(
-    var login: String = "",
-    var pwd: String = "",
-    var remember: Boolean = false,
-    var isShowing: Boolean = false
-) {
-    fun isNotEmpty(): Boolean {
-        return login.isNotEmpty() && pwd.isNotEmpty()
-    }
-}
 
 
 @Composable

@@ -1,11 +1,8 @@
 package com.phycare.residentbeacon.screens
 
-
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,7 +43,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -62,18 +59,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.phycare.residentbeacon.AddUserActivity
-import com.phycare.residentbeacon.AllDestinations
 import com.phycare.residentbeacon.R
 import com.phycare.residentbeacon.ResidentViewModel
-import com.phycare.residentbeacon.Screens
 import com.phycare.residentbeacon.model.PGYItem
 import com.phycare.residentbeacon.model.ResidentCompleteSearchItem
 import com.phycare.residentbeacon.model.SpecialityItem
@@ -81,7 +72,6 @@ import com.phycare.residentbeacon.model.StatesItem
 import com.phycare.residentbeacon.ui.theme.BeaconComposeTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageProvidersScreen(
     navController: NavHostController,
@@ -92,9 +82,9 @@ fun ManageProvidersScreen(
 )
 {
     BeaconComposeTheme {
-        val isFloatingActionButtonDocked by remember {
+       /* val isFloatingActionButtonDocked by remember {
             mutableStateOf(false)
-        }
+        }*/
         val context = LocalContext.current
         Scaffold(
 
@@ -146,7 +136,7 @@ fun ManageProvidersScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     shape = CircleShape,
-                    onClick = { TODO }
+                    onClick = {  }
                 ) {
                     Icon(imageVector = Icons.Default.Add , contentDescription ="Image" )
                   }
@@ -158,7 +148,8 @@ fun ManageProvidersScreen(
     }
 
 }
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@SuppressLint("ComposableNaming")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun manageProvidersList(
     viewModel: ResidentViewModel,
@@ -168,10 +159,10 @@ fun manageProvidersList(
 ) {
     val context = LocalContext.current
     //get the json data
-    val strJson = getJsondataFromAssets(context,"resident.json")
+   /* val strJson = getJsondataFromAssets(context,"resident.json")
     val gson = Gson()
     val strType = object : TypeToken<List<ResidentCompleteSearchItem>>(){}.type
-    val residentCompleteSearchListResponse:List<ResidentCompleteSearchItem> = gson.fromJson(strJson,strType)
+    val residentCompleteSearchListResponse:List<ResidentCompleteSearchItem> = gson.fromJson(strJson,strType)*/
     //Log.e("Assets Data","listSize: ${list.size}")
 
     var showWebView by remember { mutableStateOf(false) }
@@ -179,26 +170,24 @@ fun manageProvidersList(
     var locationName by remember { mutableStateOf("") }
     var pgyName by remember { mutableStateOf("") }
     var specialityName by remember { mutableStateOf("") }
-    var imgShowAndHide by remember { mutableStateOf(false) }
+    //var imgShowAndHide by remember { mutableStateOf(false) }
 
-    val notesList = remember {
-        mutableStateListOf<ResidentCompleteSearchItem>()
-    }
-    val inputvalue = remember { mutableStateOf(TextFieldValue()) }
+   // val notesList = remember {mutableStateListOf<ResidentCompleteSearchItem>()}
+   // val inputvalue = remember { mutableStateOf(TextFieldValue()) }
 
     if (stateList.size != 0  && specialityList.size != 0) {
-        var ResidentName by remember { mutableStateOf("") }
-        var isError by rememberSaveable { mutableStateOf(false) }
+        var residentName by remember { mutableStateOf("") }
+        val isError by rememberSaveable { mutableStateOf(false) }
         var itemsp by remember { mutableStateOf("") }
         var expanded by remember { mutableStateOf(false) }
-        var selectedItemIndex by remember { mutableStateOf(0) }
+        var selectedItemIndex by remember { mutableIntStateOf(0) }
         Column(modifier = Modifier.fillMaxSize()) {
 
             Row(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(value = ResidentName,
+                OutlinedTextField(value = residentName,
                     onValueChange = {
-                        ResidentName = it
-                        providerName = ResidentName.toString()
+                        residentName = it
+                        providerName = residentName
                         showWebView = true
                     },
                     label = { Text(text = "Provider name") },
@@ -214,7 +203,6 @@ fun manageProvidersList(
                         keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
                     )
                 )
-
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = !expanded },
@@ -234,11 +222,9 @@ fun manageProvidersList(
                         label = { Text("Location") },
                         colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                     )
-
                     ExposedDropdownMenu(expanded = expanded,
                         onDismissRequest = { expanded = false }) {
                         stateList.forEachIndexed { index, item ->
-                            var userCity = item.Location
                             DropdownMenuItem(text = {
                                 Text(
                                     text = item.Location,
@@ -248,7 +234,7 @@ fun manageProvidersList(
                             }, onClick = {
                                 selectedItemIndex = index
                                 expanded = false
-                                if (item.Location.equals("All")) {
+                                if (item.Location == "All") {
                                     locationName = ""
                                 }
                                 else {
@@ -267,7 +253,7 @@ fun manageProvidersList(
             }  // close the row of location
 
             var expandedPgy by remember { mutableStateOf(false) }
-            var selectedItemIndexPgy by remember { mutableStateOf(0) }
+            var selectedItemIndexPgy by remember { mutableIntStateOf(0) }
             Row(modifier = Modifier.fillMaxWidth()) {
                 ExposedDropdownMenuBox(
                     expanded = expandedPgy,
@@ -304,7 +290,7 @@ fun manageProvidersList(
                         expanded = expandedPgy,
                         onDismissRequest = { expandedPgy = false }) {
                         pgyList.forEachIndexed { index, item ->
-                            var userpgy = item.PGY
+
                             DropdownMenuItem(text = {
                                 Text(
                                     text = item.PGY,
@@ -314,24 +300,19 @@ fun manageProvidersList(
                             }, onClick = {
                                 selectedItemIndexPgy = index
                                 expandedPgy = false
-                                if (item.PGY.equals("All")) {
+                                if (item.PGY == "All") {
                                     pgyName = ""
                                 } else {
                                     pgyName = item.PGY
                                     showWebView = true
                                 }
-
-                                Log.e("ListSize<>>>>>>>>>", "Size of :" + pgyName)
-
-                            })
-
+                           })
                         }
                     }
-
                 }
                 //       speciality dropdown -------------- //
                 var expandedspeciality by remember { mutableStateOf(false) }
-                var selectedItemIndexspeciality by remember { mutableStateOf(0) }
+                var selectedItemIndexspeciality by remember { mutableIntStateOf(0) }
                 ExposedDropdownMenuBox(
                     expanded = expandedspeciality,
                     onExpandedChange = { expandedspeciality = !expandedspeciality },
@@ -360,7 +341,7 @@ fun manageProvidersList(
                         expanded = expandedspeciality,
                         onDismissRequest = { expandedspeciality = false }) {
                         specialityList.forEachIndexed { index, item ->
-                            var userSpeciality = item.Speciality
+
                             DropdownMenuItem(text = {
                                 Text(
                                     text = item.Speciality,
@@ -370,13 +351,13 @@ fun manageProvidersList(
                             }, onClick = {
                                 selectedItemIndexspeciality = index
                                 expandedspeciality = false
-                                if (item.Speciality.equals("All")) {
+                                if (item.Speciality == "All") {
                                     specialityName = ""
                                 } else {
                                     specialityName = item.Speciality
                                     showWebView = true
                                 }
-                                Log.e("ListSize<>>>>>>>>>", "Size of :" + specialityName)
+                               // Log.e("ListSize<>>>>>>>>>", "Size of :" + specialityName)
                                 // DisplayListdata(viewModel,providerName,locationName,pgyName)
 
                             })
@@ -420,11 +401,6 @@ fun manageProvidersList(
         }
         Spacer(modifier = Modifier.height(3.dp))
         // close drop down 2nd
-        val visible by remember {mutableStateOf(true)  }
-        val animatedAlpha by animateFloatAsState(
-            targetValue = if (visible) 1.0f else 0f, label = "alpha"
-        )
-
         Column {
             viewModel.getResidentCompleteSearch(providerName, locationName, pgyName)
             isShow = false
@@ -453,10 +429,6 @@ fun manageProvidersList(
                         .padding(top = 5.dp, end = 1.dp)
                 )
 
-                // heading view
-                val modifier = Modifier
-                //HeadingView(viewModel,selectAll,isEnabled,modifier)
-
             }
 
             Box(modifier = Modifier
@@ -466,12 +438,12 @@ fun manageProvidersList(
 
 
                 LazyVerticalGrid(columns = GridCells.Fixed(1)) {
-                    if (viewModel.residentCompleteSearchListResponse.size != 0) {
+                    if (viewModel.residentCompleteSearchListResponse.isNotEmpty()) {
                         itemsIndexed(viewModel.residentCompleteSearchListResponse){ index, item ->
                             EachRow(
-                                isEnabled = isEnabled,
+                                //isEnabled = isEnabled,
                                 item = item,
-                                index = index,
+                                //index = index,
                                 selectedItem = selectedItems.contains(index),
                                 onClick = {
                                     selectedItems =
@@ -509,8 +481,8 @@ fun manageProvidersList(
 
         // close drop down 2nd
         var deleteList by remember {mutableStateOf(false)}
-        val visible by remember {mutableStateOf(true)}
-        val animatedAlpha by animateFloatAsState(targetValue = if (visible) 1.0f else 0f, label = "alpha")
+      //  val visible by remember {mutableStateOf(true)}
+       // val animatedAlpha by animateFloatAsState(targetValue = if (visible) 1.0f else 0f, label = "alpha")
         viewModel.getResidentCompleteSearch(providerName, locationName, pgyName)
         val list = ArrayList<ResidentCompleteSearchItem>()
         list.addAll(viewModel.residentCompleteSearchListResponse)
@@ -561,9 +533,9 @@ fun manageProvidersList(
                     LazyVerticalGrid(columns = GridCells.Fixed(1)) {
                         itemsIndexed(list) { index, item ->
                             EachRow(
-                                isEnabled = isEnabled,
+                               // isEnabled = isEnabled,
                                 item = item,
-                                index = index,
+                              //  index = index,
                                 selectedItem = selectedItems.contains(index),
                                 onClick = {
                                     selectedItems =
@@ -590,11 +562,11 @@ fun manageProvidersList(
 fun EachRow(
     modifier: Modifier = Modifier,
     item: ResidentCompleteSearchItem,
-    isEnabled: Boolean,
+   // isEnabled: Boolean,
     selectedItem: Boolean,
     onClick: () -> Unit,
     onEnableChange: (Boolean) -> Unit,
-    index: Int
+    //index: Int
 ) {
 
     Box(
@@ -628,14 +600,10 @@ fun EachRow(
                             .align(Alignment.CenterVertically)
                     )
 
-                    Checkbox(
-                        checked = selectedItem, onCheckedChange = {null
-                        }, modifier = Modifier
+                    Checkbox(checked = selectedItem, onCheckedChange = { }, modifier = Modifier
                             .padding(0.dp)
                             .weight(1f)
-                            .align(Alignment.CenterVertically)
-
-                    )
+                            .align(Alignment.CenterVertically))
                 }
 
                 Text(

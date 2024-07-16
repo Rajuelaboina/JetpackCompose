@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,6 +31,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,7 +44,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -52,31 +51,33 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.phycare.residentbeacon.HomeActivity
+import com.phycare.residentbeacon.LoginDataBase
 import com.phycare.residentbeacon.PreferencesManager
 import com.phycare.residentbeacon.R
+import com.phycare.residentbeacon.model.Credentials
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun LoginForm2() {
-    var progress: Float by remember { mutableStateOf(0.75f) }
+    //var progress: Float by remember { mutableStateOf(0.75f) }
    // Surface {
         val scope = rememberCoroutineScope()
         val context = LocalContext.current.applicationContext
-        val preferencesManager = remember { PreferencesManager(context) }
+      //  val preferencesManager = remember { PreferencesManager(context) }
         var username by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
-        var isChecked  = remember { mutableStateOf(false) }
+        val isChecked  = remember { mutableStateOf(false) }
         var isShow by rememberSaveable { mutableStateOf(false) }
-        var isValid by remember {mutableStateOf(0)}
+        var isValid by remember { mutableIntStateOf(0) }
         var isUnameError by remember {mutableStateOf(true)}
         var isPwdError by remember {mutableStateOf(true)}
-        var credentials by remember { mutableStateOf(Credentials()) }
+       // var credentials by remember { mutableStateOf(Credentials()) }
 
             // -------- One time Login --------------------
              if (PreferencesManager(context).getData().login.isNotEmpty()){
-                 PreferencesManager(context).rememberSaveData(Credentials(username,password,isChecked.value))
+                 PreferencesManager(context).rememberSaveData(Credentials(0,username,password,isChecked.value))
                  val intent = Intent(context, HomeActivity::class.java)
                  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                  context.startActivity(intent)
@@ -122,11 +123,11 @@ fun LoginForm2() {
                  visualTransformation = VisualTransformation.None,
 
              )
-             var str =""
-             if (isUnameError){
-                 str = ""
+             val str :String
+             str = if (isUnameError){
+                 ""
              }else{
-                 str = "user name is required"
+                 "user name is required"
              }
              Text(text = str, color = Color.Red, style = MaterialTheme.typography.titleSmall)
              var isPasswordVisible by remember { mutableStateOf(false) }
@@ -168,20 +169,19 @@ fun LoginForm2() {
                  singleLine = true,
                  visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
              )
-             var pwdstr =""
-             if (isPwdError){
-                 pwdstr = ""
+             val pwdStr = if (isPwdError){
+                 ""
              }else{
-                 pwdstr = "password is required"
+                 "password is required"
              }
-             Text(text = pwdstr, color = Color.Red, style = MaterialTheme.typography.titleSmall)
+             Text(text = pwdStr, color = Color.Red, style = MaterialTheme.typography.titleSmall)
              //Spacer(Modifier.size(6.dp))
              Row(verticalAlignment = Alignment.CenterVertically,
              ) {
                  Checkbox(checked = isChecked.value, onCheckedChange = {
                      //credentials = credentials.copy(remember = !credentials.remember)
                     isChecked.value = it
-                     PreferencesManager(context).rememberSaveData(Credentials(username,password,it))
+                     PreferencesManager(context).rememberSaveData(Credentials(0,username,password,it))
                  }
                  )
                  Text("Remember Me")
@@ -194,22 +194,29 @@ fun LoginForm2() {
                          delay(1000)
                          isValid = isValidCredentials(username,password,context)
 
-                         if (isValid == -1) {
-                           //Log.e("Succcess","Sucess    $username,$password")
-                             PreferencesManager(context).saveData(Credentials(username,password,isChecked.value))
-                             PreferencesManager(context).rememberSaveData(Credentials(username,password,isChecked.value))
-                             val intent = Intent(context, HomeActivity::class.java)
-                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                             context.startActivity(intent)
-                         //    Log.e("Succcess","else >>>>>>>>>>>>>>"+PreferencesManager(context).getData().login);
-                         }else if (isValid == 1)
-                         {
-                             isUnameError = false
-                             Log.e("Succcess","else >>>>>>>>>>>>>>")
-                         }else if (isValid == 2)
-                         {
-                             isPwdError = false
-                             Log.e("Succcess","else >>>>>>>>>>>>>>")
+                         when (isValid) {
+                             -1 -> {
+                                 //Log.e("Succcess","Sucess    $username,$password")
+                                 PreferencesManager(context).saveData(Credentials(0,username,password,isChecked.value))
+                                 PreferencesManager(context).rememberSaveData(Credentials(0,username,password,isChecked.value))
+                                 scope.launch {
+                                     LoginDataBase.getInstance(context).loginDao().insert(Credentials(0,username,password,isChecked.value))
+
+                                 }
+
+                                 val intent = Intent(context, HomeActivity::class.java)
+                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                 context.startActivity(intent)
+                                 //    Log.e("Succcess","else >>>>>>>>>>>>>>"+PreferencesManager(context).getData().login);
+                             }
+                             1 -> {
+                                 isUnameError = false
+                                 Log.e("Succcess","else >>>>>>>>>>>>>>")
+                             }
+                             2 -> {
+                                 isPwdError = false
+                                 Log.e("Succcess","else >>>>>>>>>>>>>>")
+                             }
                          }
                         isShow = false
                      }
@@ -221,7 +228,7 @@ fun LoginForm2() {
               ) {
                Row(verticalAlignment = Alignment.CenterVertically,
                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    var str ="Login"
+                    var str = "Login"
                    if (isShow){
                        str = "Loading"
                        CircularProgressIndicator(color = Color.White,

@@ -3,7 +3,7 @@ package com.phycare.residentbeacon
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import com.phycare.residentbeacon.screens.Credentials
+import com.phycare.residentbeacon.model.Credentials
 
 class PreferencesManager(context: Context) {
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MyProfileData",Context.MODE_PRIVATE)
@@ -28,7 +28,7 @@ class PreferencesManager(context: Context) {
         val userName = sharedPreferences.getString("UserName","")
         val password = sharedPreferences.getString("Password","")
         val remem = sharedPreferences.getBoolean("CHECKED",false)
-        return Credentials(userName.toString(),password.toString(),remem)
+        return Credentials(0,userName.toString(),password.toString(),remem)
     }
     fun rememberSaveData(credentials: Credentials){
         val editor = sharedPreferences.edit()
@@ -42,7 +42,7 @@ class PreferencesManager(context: Context) {
         val userName = sharedPreferences.getString("REMUserName",null)
         val password = sharedPreferences.getString("REMPassword",null)
         val remem = sharedPreferences.getBoolean("REMCHECKED",false)
-        return Credentials(userName.toString(),password.toString(),remem)
+        return Credentials(0,userName.toString(),password.toString(),remem)
     }
     fun rememberSaveData2(credentials: Credentials){
         val editor = sharedPreferences.edit()
@@ -56,7 +56,7 @@ class PreferencesManager(context: Context) {
         val userName = sharedPreferences.getString("REMUserName",null)
         val password = sharedPreferences.getString("REMPassword",null)
         val remem = sharedPreferences.getBoolean("REMCHECKED",false)
-        return Credentials(userName.toString(),password.toString(),remem)
+        return Credentials(0,userName.toString(),password.toString(),remem)
     }
     fun clearData(context: Context) {
         val editor = sharedPreferences.edit()

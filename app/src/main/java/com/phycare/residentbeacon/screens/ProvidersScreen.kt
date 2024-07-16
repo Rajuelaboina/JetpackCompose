@@ -8,7 +8,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -51,7 +50,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -674,8 +672,36 @@ fun FullView(item: ResidentCompleteSearchItem) {
     }
 }
 
-fun getJsondataFromAssets(context: Context, strfile: String): String {
+/*fun getJsondataFromAssets(context: Context, strfile: String): String {
     val string: String = context.assets.open(strfile).bufferedReader().use { it.readText() }
     return string
-}
+}*/
 
+/*
+DisposableEffect(context, "android.net.conn.CONNECTIVITY_CHANGE") {
+    val intentFilter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
+    val callback: NetworkChangeCallback? = null
+    val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val status: Boolean = isNetworkAvailable(context)
+            //Log.e("BroadCast >>>>>", "Status of: " + status)
+            networkStatus = status
+            callback?.onNetworkChanged(status)
+        }
+        private fun isNetworkAvailable(context: Context?): Boolean {
+            try {
+                val cm =
+                    context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val activeNetworkInfo = cm.activeNetworkInfo
+                return (activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting)
+            } catch (e: NullPointerException) {
+                // showLog(e.localizedMessage)
+                return false
+            }
+        }
+    }
+    context.registerReceiver(receiver, intentFilter)
+    onDispose {
+        context.unregisterReceiver(receiver)
+    }
+}*/

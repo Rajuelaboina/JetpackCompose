@@ -874,7 +874,7 @@ fun EachRow2(
             )
             Checkbox(
                 checked = selectedItem,
-                onCheckedChange = { null },
+                onCheckedChange = { },
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 0.dp)

@@ -1,33 +1,20 @@
 package com.phycare.residentbeacon
 
-
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.load.engine.Resource
 import com.phycare.residentbeacon.model.CompleteProgramSearchItem
 import com.phycare.residentbeacon.model.PGYItem
 import com.phycare.residentbeacon.model.ResidentCompleteSearchItem
-import com.phycare.residentbeacon.model.Speciality
 import com.phycare.residentbeacon.model.SpecialityItem
 import com.phycare.residentbeacon.model.StatesItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ResidentViewModel:ViewModel() {
     private val apiService = RetrofitInstance.api
@@ -87,7 +74,7 @@ class ResidentViewModel:ViewModel() {
         Log.e("View Size","residentCompleteSearchListResponse: ${residentCompleteSearchListResponse.size}")
     }
 
-    var isLoading = mutableStateOf(false)
+    private var isLoading = mutableStateOf(false)
     private var _getUserData: MutableLiveData<List<ResidentCompleteSearchItem>> = MutableLiveData<List<ResidentCompleteSearchItem>>()
     var getUserData: LiveData<List<ResidentCompleteSearchItem>> = _getUserData
 
