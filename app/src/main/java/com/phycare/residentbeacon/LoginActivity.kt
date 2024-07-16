@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.phycare.residentbeacon.screens.LoginForm
+import com.phycare.residentbeacon.screens.LoginForm2
 import com.phycare.residentbeacon.ui.theme.BeaconComposeTheme
 
 class LoginActivity : ComponentActivity() {
@@ -50,7 +51,7 @@ class LoginActivity : ComponentActivity() {
                     )
                     {
 
-                        Column(modifier = Modifier.fillMaxSize().padding(top = 120.dp),
+                        Column(modifier = Modifier.fillMaxSize().padding(top = 100.dp),
                             horizontalAlignment = Alignment.CenterHorizontally)
                         {
                             Column(modifier = Modifier
@@ -59,7 +60,7 @@ class LoginActivity : ComponentActivity() {
                                     shape = RoundedCornerShape(10.dp)
                                 )
                                 .width(380.dp)
-                                .height(330.dp),
+                                .height(370.dp),
                             )
                             {
                                 Image(painterResource(id = R.drawable.resident_logo), contentDescription = null,
@@ -154,7 +155,7 @@ class LoginActivity : ComponentActivity() {
                                     Text(text = "Login")
                                 }*/
 
-                                LoginForm()
+                                LoginForm2()
                             }
                         }
                     }

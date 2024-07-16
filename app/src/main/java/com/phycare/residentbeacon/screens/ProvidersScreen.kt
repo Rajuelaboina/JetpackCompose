@@ -8,6 +8,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,6 +51,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -73,6 +75,7 @@ fun ProvidersScreen(
     stateList: SnapshotStateList<StatesItem>,
     pgyList: SnapshotStateList<PGYItem>,
     specialityList: SnapshotStateList<SpecialityItem>,
+
 ) {
     BeaconComposeTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -81,12 +84,23 @@ fun ProvidersScreen(
              viewModel.getAllSpeciality()*/
 
             // PostList(movieList)
-            PostList(
-                viewModel,
-                stateList,
-                pgyList,
-                specialityList
-            )
+            //if (networkStatus) {
+                PostList(
+                    viewModel,
+                    stateList,
+                    pgyList,
+                    specialityList
+                )
+           /* }else{
+                Column(verticalArrangement = Arrangement.Center,
+                     horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "Network not Available, please connect the network !",
+                        color = Color.Red, style = MaterialTheme.typography.titleMedium,
+                        fontStyle = FontStyle.Italic
+                    )
+                }
+
+            }*/
 
         }
     }
@@ -123,7 +137,8 @@ fun PostList(
         var itemsp by remember { mutableStateOf("") }
         var expanded by remember { mutableStateOf(false) }
         var selectedItemIndex by remember { mutableIntStateOf(0) }
-        Column(modifier = Modifier.background(color = Color.White)
+        Column(modifier = Modifier
+            .background(color = Color.White)
             .fillMaxSize(),) {
 
             Row(modifier = Modifier.fillMaxWidth()) {

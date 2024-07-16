@@ -16,6 +16,14 @@ class PreferencesManager(context: Context) {
         editor.apply()
         editor.commit()
     }
+    fun saveData2(username: String,password:String,isChecked: Boolean){
+        val editor = sharedPreferences.edit()
+        editor.putString("UserName",username)
+        editor.putString("Password",password)
+        editor.putBoolean("CHECKED",isChecked)
+        editor.apply()
+        editor.commit()
+    }
     fun getData(): Credentials {
         val userName = sharedPreferences.getString("UserName","")
         val password = sharedPreferences.getString("Password","")
@@ -36,11 +44,25 @@ class PreferencesManager(context: Context) {
         val remem = sharedPreferences.getBoolean("REMCHECKED",false)
         return Credentials(userName.toString(),password.toString(),remem)
     }
+    fun rememberSaveData2(credentials: Credentials){
+        val editor = sharedPreferences.edit()
+        editor.putString("REMUserName",credentials.login)
+        editor.putString("REMPassword",credentials.pwd)
+        editor.putBoolean("REMCHECKED",credentials.remember)
+        editor.apply()
+        editor.commit()
+    }
+    fun rememberGetData2(): Credentials {
+        val userName = sharedPreferences.getString("REMUserName",null)
+        val password = sharedPreferences.getString("REMPassword",null)
+        val remem = sharedPreferences.getBoolean("REMCHECKED",false)
+        return Credentials(userName.toString(),password.toString(),remem)
+    }
     fun clearData(context: Context) {
         val editor = sharedPreferences.edit()
-        editor.remove("REMUserName")
-        editor.remove("REMPassword")
-        editor.remove("REMCHECKED")
+        editor.remove("UserName")
+        editor.remove("Password")
+        editor.remove("CHECKED")
         editor.apply()
         context.startActivity(Intent(context,LoginActivity::class.java))
 

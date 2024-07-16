@@ -72,9 +72,9 @@ fun BottomNavigationBar(viewModel: ResidentViewModel) {
              modifier = Modifier.padding(paddingValues = paddingValues)) {
              composable(Screens.Residents.route) {
 
-                 ProvidersScreen(
-                     viewModel,stateList,pgyList,specialityList
-                 )
+                /* ProvidersScreen(
+                     viewModel, stateList, pgyList, specialityList
+                 )*/
              }
              composable(Screens.Programs.route) {
                  ProgramsScreen(

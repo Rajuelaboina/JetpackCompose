@@ -29,6 +29,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -403,7 +404,20 @@ fun manageProvidersList(
         /*Log.e("name", "providerName: " + providerName)
         Log.e("name", "locationName 2: " + locationName)
         Log.e("name", "pgyName: " + pgyName) */
+        var isShow by rememberSaveable { mutableStateOf(true) }
+        if (isShow){
 
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(start = 5.dp, top = 150.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+                Text(text = "loading..")
+            }
+        }
         Spacer(modifier = Modifier.height(3.dp))
         // close drop down 2nd
         val visible by remember {mutableStateOf(true)  }
@@ -413,6 +427,7 @@ fun manageProvidersList(
 
         Column {
             viewModel.getResidentCompleteSearch(providerName, locationName, pgyName)
+            isShow = false
             Row(
                 modifier = Modifier
                     .padding(start = 15.dp, top = 150.dp)
@@ -476,7 +491,22 @@ fun manageProvidersList(
 
 
     }else{
+        var isShow by rememberSaveable { mutableStateOf(true) }
+        if (isShow){
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(start = 5.dp, top = 150.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+                Text(text = "loading..")
+            }
+        }
         Spacer(modifier = Modifier.height(3.dp))
+
         // close drop down 2nd
         var deleteList by remember {mutableStateOf(false)}
         val visible by remember {mutableStateOf(true)}
@@ -484,6 +514,7 @@ fun manageProvidersList(
         viewModel.getResidentCompleteSearch(providerName, locationName, pgyName)
         val list = ArrayList<ResidentCompleteSearchItem>()
         list.addAll(viewModel.residentCompleteSearchListResponse)
+
         Column {
             Row(
                 modifier = Modifier
@@ -498,8 +529,8 @@ fun manageProvidersList(
                         role = Role.Checkbox
                     )
             ) {
+                isShow = false
                 Text(text = "Select All : " + list.size, modifier = Modifier.weight(6f))
-
             //    if (isEnabled){
                     Image(painterResource(id = R.drawable.baseline_delete_24),
                         contentDescription = "",
@@ -514,15 +545,9 @@ fun manageProvidersList(
                                 selectAll = false
                             }
                     )
-            //    }
-
                 Checkbox(checked = selectAll, onCheckedChange = null,modifier = Modifier
                     .weight(1f)
                     .padding(top = 5.dp, end = 1.dp))
-
-
-
-
             }
 
             if (!deleteList) {
@@ -533,9 +558,7 @@ fun manageProvidersList(
                         .padding(start = 5.dp, top = 15.dp)
                     /* .graphicsLayer { alpha = animatedAlpha }*/
                 ) {
-
                     LazyVerticalGrid(columns = GridCells.Fixed(1)) {
-
                         itemsIndexed(list) { index, item ->
                             EachRow(
                                 isEnabled = isEnabled,
@@ -554,13 +577,10 @@ fun manageProvidersList(
                             )
                         }
                     }
-
-
                 } // close Box
             }
         }
     }
-
 }
 
 
