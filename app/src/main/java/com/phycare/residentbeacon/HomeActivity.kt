@@ -41,6 +41,7 @@ class HomeActivity : ComponentActivity() {
         setContent {
             var strTitle: String
             var networkStatus by remember { mutableStateOf(false) }
+            var isNetwork by remember { mutableStateOf(false) }
             // val scope = rememberCoroutineScope()
             BeaconComposeTheme {
                 /* Scaffold(modifier = Modifier.fillMaxSize()) {}*/
@@ -52,6 +53,11 @@ class HomeActivity : ComponentActivity() {
                         override fun onReceive(context: Context?, intent: Intent?) {
                             val status: Boolean = isNetworkAvailable(context)
                             //Log.e("BroadCast >>>>>", "Status of: " + status)
+                            if (status){
+                                isNetwork = false
+                            }else{
+                                isNetwork = true
+                            }
                             networkStatus = status
                             callback?.onNetworkChanged(status)
                         }
@@ -77,19 +83,21 @@ class HomeActivity : ComponentActivity() {
                     strTitle = ""
                     HomeAppNavGraph()
 
-                }/*else{
-                    strTitle =  "Network not Available, please connect the network !"
-                    Surface {
-                        Column(verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(top = 350.dp, start = 20.dp, end = 20.dp)) {
-                            Text(text = strTitle,
-                                color = Color.Red, style = MaterialTheme.typography.titleMedium,
-                                fontStyle = FontStyle.Italic
-                            )
+                }else{
+                    if (isNetwork){
+                        strTitle =  "Network not Available, please connect the network !"
+                        Surface {
+                            Column(verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.padding(top = 350.dp, start = 20.dp, end = 20.dp)) {
+                                Text(text = strTitle,
+                                    color = Color.Red, style = MaterialTheme.typography.titleMedium,
+                                    fontStyle = FontStyle.Italic
+                                )
+                            }
                         }
                     }
-                }*/
+                }
             }
         }
     }

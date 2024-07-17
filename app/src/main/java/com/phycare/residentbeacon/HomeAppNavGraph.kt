@@ -1,15 +1,7 @@
 package com.phycare.residentbeacon
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerState
@@ -25,12 +17,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -40,11 +30,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.phycare.residentbeacon.screens.CommunicationScreen2
+import com.phycare.residentbeacon.screens.HomeScreen
 import com.phycare.residentbeacon.screens.ManageProvidersScreen
 import com.phycare.residentbeacon.screens.ProgramsScreen
 import com.phycare.residentbeacon.screens.ProvidersScreen
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,10 +74,17 @@ fun HomeAppNavGraph(
                         IconButton(onClick = {
                             coroutineScope.launch { drawerState.open() }
                         }, content = {
-                            Icon(imageVector = Icons.Default.Menu, contentDescription = null)
+                            Icon(painterResource(id = R.drawable.baseline_menu_24), contentDescription = null)
+                            //Image(painterResource(id = R.drawable.baseline_menu_24), contentDescription = null)
                         })
                     },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    //colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                        actionIconContentColor = MaterialTheme.colorScheme.onSecondary
+                    ),
                     actions = {
                         IconButton(onClick =
                         {
@@ -113,11 +110,11 @@ fun HomeAppNavGraph(
             val specialityList = viewModel.specialityListResponse
             NavHost(
                 navController = navController,
-                startDestination = AllDestinations.PROVIDERS,
+                startDestination = AllDestinations.PROVIDERS, // start the navigation item
                 modifier = modifier.padding(it)
             ) {
                 composable(AllDestinations.HOME) {
-                    HomeScreen()
+                    HomeScreen(navController, viewModel)
                 }
                 composable(AllDestinations.PROVIDERS) {
                     viewModel.getAllStates()
@@ -189,8 +186,4 @@ fun SettingsScreen(navController: NavHostController) {
            }
         )
     }
-}
-@Composable
-fun HomeScreen() {
-
 }

@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -50,6 +52,12 @@ fun BottomNavigationBar(viewModel: ResidentViewModel) {
                                    restoreState = true
                                }
                            },
+                           /*colors = NavigationBarItemDefaults.colors(
+                               selectedTextColor = Color.Black,
+                               selectedIconColor = Color.White,
+                               unselectedIconColor = Color.Black,
+                               unselectedTextColor = Color.Black,
+                           )*/
 
                        )
 
@@ -72,9 +80,9 @@ fun BottomNavigationBar(viewModel: ResidentViewModel) {
              modifier = Modifier.padding(paddingValues = paddingValues)) {
              composable(Screens.Residents.route) {
 
-                /* ProvidersScreen(
+                 ProvidersScreen(
                      viewModel, stateList, pgyList, specialityList
-                 )*/
+                 )
              }
              composable(Screens.Programs.route) {
                  ProgramsScreen(

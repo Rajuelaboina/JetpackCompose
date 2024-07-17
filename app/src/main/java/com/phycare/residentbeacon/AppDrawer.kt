@@ -1,14 +1,18 @@
 package com.phycare.residentbeacon
 
+import android.view.RoundedCorner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -24,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -46,83 +51,131 @@ fun AppDrawer(
     ModalDrawerSheet{
         DrawerHeader(modifier)
       // Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.spacer_padding)))
-        Column {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorResource(id = R.color.slide_menucolor))
+        )
+        {
 
         NavigationDrawerItem(
             label = {
                 Text(
                     text = stringResource(id = R.string.home),
                     style = MaterialTheme.typography.labelLarge,
-
-                )
+                    )
             },
             selected = route == AllDestinations.HOME,
             onClick = {
                 navigateToHome()
                 closeDrawer()
             },
-            icon = { Icon(painterResource(id = R.drawable.nav_home), contentDescription = null, modifier = Modifier.size(25.dp)) },
-            shape = MaterialTheme.shapes.large,
+            icon = { Icon(painterResource(id = R.drawable.nav_home2), contentDescription = null, modifier = Modifier.size(25.dp)) },
+            shape = MaterialTheme.shapes.medium,
+            colors = NavigationDrawerItemDefaults.colors(
+                selectedContainerColor = Color.DarkGray,
+                unselectedContainerColor = Color.Transparent,
+                selectedTextColor = Color.White,
+                //unselectedTextColor = Color.Black,
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color.Black
+            ),
+            modifier = Modifier
+                .padding(end = 10.dp, start = 10.dp)
+                .clip(RoundedCornerShape(30.dp))
 
         )
         NavigationDrawerItem(
-            label = { Text(text = stringResource(id = R.string.providers), style = MaterialTheme.typography.labelSmall) },
+            label = { Text(text = stringResource(id = R.string.providers),
+                style = MaterialTheme.typography.labelLarge) },
             selected = route == AllDestinations.PROVIDERS,
             onClick = {
                 navigateToProviders()
                 closeDrawer()
             },
-            icon = { Icon(painterResource(id = R.drawable.nav_icon1), contentDescription = null) },
+            icon = { Icon(painterResource(id = R.drawable.nav_icon12), contentDescription = null) },
             shape = MaterialTheme.shapes.medium,
+            colors = NavigationDrawerItemDefaults.colors(
+                selectedContainerColor = Color.DarkGray,
+                unselectedContainerColor = Color.Transparent,
+                selectedTextColor = Color.White,
+               // unselectedTextColor = Color.Black,
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color.Black
+            ),
+            modifier = Modifier
+                .padding(end = 10.dp, start = 10.dp)
+                .clip(RoundedCornerShape(30.dp))
 
         )
         NavigationDrawerItem(
-            label = { Text(text = stringResource(id = R.string.programs), style = MaterialTheme.typography.labelSmall) },
+            label = { Text(text = stringResource(id = R.string.programs),
+                style = MaterialTheme.typography.labelLarge) },
             selected = route == AllDestinations.PROGRAMS,
             onClick = {
                 navigateToPrograms()
                 closeDrawer()
             },
-            icon = { Icon(painterResource(id = R.drawable.nav_icon2), contentDescription = null) },
+            icon = { Icon(painterResource(id = R.drawable.nav_icon22), contentDescription = null) },
             shape = MaterialTheme.shapes.medium,
-           /* colors = NavigationDrawerItemDefaults.colors(
+            colors = NavigationDrawerItemDefaults.colors(
                 selectedContainerColor = Color.DarkGray,
-                unselectedContainerColor = Color.LightGray,
+                unselectedContainerColor = Color.Transparent,
                 selectedTextColor = Color.White,
                 selectedIconColor = Color.White,
-                unselectedIconColor = Color.White
-            )*/
+                unselectedIconColor = Color.Black
+            ),
+            modifier = Modifier
+                .padding(end = 10.dp, start = 10.dp)
+                .clip(RoundedCornerShape(30.dp))
+
         )
         NavigationDrawerItem(
-            label = { Text(text = stringResource(id = R.string.manageProviders), style = MaterialTheme.typography.labelSmall) },
+            label = { Text(text = stringResource(id = R.string.manageProviders),
+                style = MaterialTheme.typography.labelLarge) },
             selected = route == AllDestinations.MANAGEPROVIDERS,
             onClick = {
                 navigateToManageProviders()
                 closeDrawer()
             },
-            icon = { Icon(painterResource(id = R.drawable.nav_icon3), contentDescription = null) },
+            icon = { Icon(painterResource(id = R.drawable.nav_icon32), contentDescription = null) },
             shape = MaterialTheme.shapes.medium,
+            colors = NavigationDrawerItemDefaults.colors(
+                selectedContainerColor = Color.DarkGray,
+                unselectedContainerColor = Color.Transparent,
+                selectedTextColor = Color.White,
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color.Black
+            ),
+            modifier = Modifier
+                .padding(end = 10.dp, start = 10.dp)
+                .clip(RoundedCornerShape(30.dp))
 
         )
         NavigationDrawerItem(
-            label = { Text(text = stringResource(id = R.string.communication), style = MaterialTheme.typography.labelSmall) },
+            label = { Text(text = stringResource(id = R.string.communication),
+                style = MaterialTheme.typography.labelLarge) },
             selected = route == AllDestinations.COMMUNICATION,
             onClick = {
                 navigateToCommunication()
                 closeDrawer()
             },
-            icon = { Icon(painterResource(id = R.drawable.nav_icon4) , contentDescription = null) },
+            icon = { Icon(painterResource(id = R.drawable.nav_icon42) , contentDescription = null) },
             shape = MaterialTheme.shapes.medium,
-            /*colors = NavigationDrawerItemDefaults.colors(
+            colors = NavigationDrawerItemDefaults.colors(
                 selectedContainerColor = Color.DarkGray,
-                unselectedContainerColor = Color.LightGray,
+                unselectedContainerColor = Color.Transparent,
                 selectedTextColor = Color.White,
                 selectedIconColor = Color.White,
-                unselectedIconColor = Color.White
-            )*/
+                unselectedIconColor = Color.Black
+            ),
+            modifier = Modifier
+                .padding(end = 10.dp, start = 10.dp)
+                .clip(RoundedCornerShape(30.dp))
+
         )
         NavigationDrawerItem(
-            label = { Text(text = stringResource(id = R.string.logout), style = MaterialTheme.typography.labelSmall) },
+            label = { Text(text = stringResource(id = R.string.logout),
+                style = MaterialTheme.typography.labelLarge) },
             selected = route == AllDestinations.LOGOUT,
             onClick = {
                 navigateToLogout()
@@ -130,6 +183,16 @@ fun AppDrawer(
             },
             icon = { Icon(painterResource(id = R.drawable.logout_24) , contentDescription = null) },
             shape = MaterialTheme.shapes.medium,
+            colors = NavigationDrawerItemDefaults.colors(
+                selectedContainerColor = Color.DarkGray,
+                unselectedContainerColor = Color.Transparent,
+                selectedTextColor = Color.White,
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color.Black
+            ),
+            modifier = Modifier
+                .padding(end = 10.dp, start = 10.dp)
+                .clip(RoundedCornerShape(30.dp))
 
         )
 
@@ -142,7 +205,7 @@ fun DrawerHeader(modifier: Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-           /* .background(color = Color.LightGray)*/
+            .background(color = colorResource(id = R.color.slide_menucolor))
             .padding(dimensionResource(id = R.dimen.header_padding))
             .fillMaxWidth()
     ) {
@@ -161,7 +224,7 @@ fun DrawerHeader(modifier: Modifier) {
             text = "Raju K S R",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
-            color = Color.Black,
+            color =  MaterialTheme.colorScheme.background,
         )
         Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.spacer_padding)))
         Text(
@@ -169,7 +232,7 @@ fun DrawerHeader(modifier: Modifier) {
             text =  "System Administrator",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.background,
         )
     }
 }
