@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                   // viewModel.getAllStates()
-                    BottomNavigationBar(viewModel)
+                  //  BottomNavigationBar(viewModel, Modifier)
                   // BottomNavigationBar(viewModel,movieList = viewModel.movieListResponse)
                   //  PostList(movieList = viewModel.movieListResponse)
                   // MovieList(movieList = mainViewModel.movieListResponse)
@@ -49,5 +49,5 @@ fun Greeting(name: String) {
 @Composable
 fun DrawerAppComponentPreview() {
     val  viewModel = ResidentViewModel()
-    BottomNavigationBar(viewModel)
+   // BottomNavigationBar(viewModel, Modifier, navController)
 }

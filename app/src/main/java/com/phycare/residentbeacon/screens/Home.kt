@@ -14,7 +14,7 @@ fun HomeScreen(navController: NavHostController, viewModel: ResidentViewModel) {
 
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         // viewModel.getAllStates()
-      //  BottomNavigationBar(viewModel)
+       // BottomNavigationBar(viewModel, Modifier)  // this one
         // BottomNavigationBar(viewModel,movieList = viewModel.movieListResponse)
         //  PostList(movieList = viewModel.movieListResponse)
         // MovieList(movieList = mainViewModel.movieListResponse)

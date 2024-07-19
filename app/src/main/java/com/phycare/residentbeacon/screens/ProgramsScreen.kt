@@ -612,5 +612,5 @@ fun FullView(item: CompleteProgramSearchItem) {
 @Composable
 fun DrawerAppComponentPreview() {
     val  viewModel = ResidentViewModel()
-    BottomNavigationBar(viewModel)
+   // BottomNavigationBar(viewModel, Modifier)
 }

@@ -8,6 +8,11 @@ data class BottomNavigationItem(
 ) {
     fun bottomNavigationItems() : List<BottomNavigationItem> {
         return listOf(
+           /* BottomNavigationItem(
+                label = "Home",
+                icon = R.drawable.nav_home2,
+                route = Screens.BottomHome.route
+            ),*/
             BottomNavigationItem(
                 label = "Providers",
                 icon = R.drawable.nav_icon12,
@@ -27,6 +32,11 @@ data class BottomNavigationItem(
                 label = "Communication",
                 icon =  R.drawable.nav_icon42,
                 route = Screens.Communications.route
+            ),
+            BottomNavigationItem(
+                label = "More",
+                icon =  R.drawable.baseline_more_horiz_24,
+                route = Screens.More.route
             ),
         )
     }

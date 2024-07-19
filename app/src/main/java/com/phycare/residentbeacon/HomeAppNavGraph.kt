@@ -29,9 +29,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.phycare.residentbeacon.screens.CommunicationScreen
 import com.phycare.residentbeacon.screens.CommunicationScreen2
 import com.phycare.residentbeacon.screens.HomeScreen
 import com.phycare.residentbeacon.screens.ManageProvidersScreen
+import com.phycare.residentbeacon.screens.More
 import com.phycare.residentbeacon.screens.ProgramsScreen
 import com.phycare.residentbeacon.screens.ProvidersScreen
 import kotlinx.coroutines.CoroutineScope
@@ -97,7 +99,9 @@ fun HomeAppNavGraph(
                         }
                     }
                 )
-            }, modifier = Modifier
+            },
+            bottomBar = { BottomNavigationBar(viewModel = viewModel, modifier = Modifier,navController)},
+            modifier = Modifier
         ) {
             // ---- check the Inter network connection -- //
 
@@ -110,7 +114,7 @@ fun HomeAppNavGraph(
             val specialityList = viewModel.specialityListResponse
             NavHost(
                 navController = navController,
-                startDestination = AllDestinations.PROVIDERS, // start the navigation item
+                startDestination = AllDestinations.HOME, // start the navigation item
                 modifier = modifier.padding(it)
             ) {
                 composable(AllDestinations.HOME) {
@@ -155,6 +159,36 @@ fun HomeAppNavGraph(
                 composable(AllDestinations.LOGOUT) {
                     SettingsScreen(navController)
                 }
+                composable(Screens.Residents.route) {
+
+                    ProvidersScreen(
+                        viewModel, stateList, pgyList, specialityList
+                    )
+                }
+                composable(Screens.Programs.route) {
+                    ProgramsScreen(
+                        navController,viewModel,stateList,pgyList,specialityList
+                    )
+                }
+                composable(Screens.ManageProviders.route) {
+                    ManageProvidersScreen(
+                        navController,viewModel,stateList,pgyList,specialityList
+                    )
+                }
+                composable(Screens.Communications.route) {
+                    CommunicationScreen2(
+                        navController,viewModel,stateList,pgyList,specialityList
+                    )
+                }
+                composable(Screens.More.route) {
+                    // showBottomSheet = true
+                    More(
+                        navController,viewModel,stateList,pgyList,specialityList
+                    )
+                }
+                /*composable(Screens.BottomHome.route) {
+                    HomeScreen(navController, viewModel)
+                }*/
             }
         }
     }

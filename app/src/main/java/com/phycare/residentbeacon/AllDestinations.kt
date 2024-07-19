@@ -1,8 +1,11 @@
 package com.phycare.residentbeacon
 
 import androidx.navigation.NavHostController
+import com.phycare.residentbeacon.AllDestinations.ANDROID
 import com.phycare.residentbeacon.AllDestinations.COMMUNICATION
 import com.phycare.residentbeacon.AllDestinations.HOME
+import com.phycare.residentbeacon.AllDestinations.JAVA
+import com.phycare.residentbeacon.AllDestinations.KOTLIN
 import com.phycare.residentbeacon.AllDestinations.LOGOUT
 import com.phycare.residentbeacon.AllDestinations.MANAGEPROVIDERS
 import com.phycare.residentbeacon.AllDestinations.PROGRAMS
@@ -15,6 +18,9 @@ object AllDestinations {
     const val MANAGEPROVIDERS = "ManageProviders"
     const val COMMUNICATION = "Communication"
     const val LOGOUT = "Logout"
+    const val ANDROID = "Android"
+    const val KOTLIN = "Kotlin"
+    const val JAVA = "Java"
 
 }
 class AppNavigationActions(val navController: NavHostController) {
@@ -52,4 +58,30 @@ class AppNavigationActions(val navController: NavHostController) {
               restoreState = true
           }
       }
+
+    fun navigateToAndroid(){
+        navController.navigate(ANDROID)
+        {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    fun navigateToKotlin(){
+        navController.navigate(KOTLIN)
+        {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    fun navigateToJava(){
+        navController.navigate(JAVA)
+        {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+
 }
