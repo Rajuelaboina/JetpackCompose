@@ -69,7 +69,8 @@ fun AppDrawer(
                 navigateToHome()
                 closeDrawer()
             },
-            icon = { Icon(painterResource(id = R.drawable.nav_home2), contentDescription = null, modifier = Modifier.size(25.dp)) },
+            icon = { Icon(painterResource(id = R.drawable.nav_home2),
+                contentDescription = null, modifier = Modifier.size(25.dp)) },
             shape = MaterialTheme.shapes.medium,
             colors = NavigationDrawerItemDefaults.colors(
                 selectedContainerColor = Color.DarkGray,
